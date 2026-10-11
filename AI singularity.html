@@ -1,0 +1,2765 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Road to the Singularity · Nexus Edition</title>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --bg-body: #E2D6C0;
+            --text-primary: #2b2b2b;
+            --text-accent: #5d4037;
+            --text-muted: #666;
+            --g: #155124;
+            --y: #8a5a00;
+            --r: #8a0303;
+            --m: #666;
+            --b: #1f5c8a;
+            --fat: rgba(255, 215, 0, .18);
+            --fat-line: #c8a600;
+            --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            --font-mono: "SF Mono", ui-monospace, monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            padding: 28px;
+            line-height: 1.6;
+        }
+
+        .sheet {
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        h1 {
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-accent);
+            border-bottom: 2px solid var(--text-accent);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        h1 .vi {
+            font-size: 11px;
+            letter-spacing: .5px;
+            color: var(--text-muted);
+            text-transform: none;
+            font-weight: 400
+        }
+
+        h1 .stamp {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0
+        }
+
+        /* ── numbered section badge ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--r);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            flex: 0 0 auto;
+            margin-right: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+        }
+
+        .sec-title {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            color: var(--text-accent);
+            font-size: 15px
+        }
+
+        /* ── SECTION 1 · timeline ── */
+        .tl-wrap {
+            margin: 18px 0 24px;
+            padding: 14px 6px 6px
+        }
+
+        .tl-head {
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            row-gap: 4px
+        }
+
+        .tl {
+            margin-top: 2px
+        }
+
+        .tl-ttl {
+            display: flex;
+            align-items: center
+        }
+
+        .tl-note {
+            margin-left: auto;
+            padding-left: 12px;
+            font-size: 10.5px;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--text-muted)
+        }
+
+        .tl-note b {
+            color: var(--r)
+        }
+
+        .tl-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            overflow: visible
+        }
+
+        /* ── MAIN CHART STAGE ── */
+        .stage {
+            position: relative;
+            width: 100%;
+            margin-top: 14px
+        }
+
+        svg.chart {
+            width: 100%;
+            height: auto;
+            display: block;
+            overflow: visible
+        }
+
+        /* foreignObject cards inherit these — premium look */
+        .card {
+            background: linear-gradient(180deg, rgba(232, 222, 202, .55), rgba(226, 214, 192, .28));
+            border: none;
+            border-top: 1px solid rgba(93, 64, 55, .45);
+            padding: 9px 11px 8px;
+            font-size: 10px;
+            line-height: 1.4;
+            color: var(--text-primary);
+            height: 100%;
+            letter-spacing: .1px;
+        }
+
+        .card b {
+            display: block;
+            color: var(--text-accent);
+            font-size: 11px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(93, 64, 55, .22)
+        }
+
+        .card .yrtag {
+            float: right;
+            margin: -1px 0 3px 8px;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-accent);
+            opacity: .55;
+            border: 1px solid rgba(93, 64, 55, .3);
+            border-radius: 2px;
+            padding: 1px 5px;
+            line-height: 1.5
+        }
+
+        .blk {
+            font-size: 12px;
+            line-height: 1.45;
+            color: var(--text-primary)
+        }
+
+        .blk .h {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            color: var(--text-accent);
+            font-size: 14px;
+            margin-bottom: 5px
+        }
+
+        .rank {
+            color: var(--r);
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            line-height: 1.35
+        }
+
+        .rank small {
+            display: block;
+            color: var(--r);
+            font-weight: 600;
+            font-size: 10.5px;
+            letter-spacing: .2px;
+            text-transform: none;
+            opacity: .85
+        }
+
+        .s3 .h {
+            font-size: 22px;
+            line-height: 1.05;
+            display: block
+        }
+
+        .s3 .badge {
+            transform: translateY(-2px)
+        }
+
+        .ann {
+            font-size: 11px;
+            color: var(--r);
+            font-weight: 700;
+            line-height: 1.3;
+            padding-left: 9px;
+            border-left: 2px solid var(--r);
+            letter-spacing: .2px
+        }
+
+        .ann.brains {
+            color: var(--text-accent);
+            border-left-color: var(--text-accent)
+        }
+
+        .ann.brains .yr {
+            color: var(--r);
+            font-size: 15px;
+            display: block;
+            letter-spacing: 1px
+        }
+
+        .ann .proj {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 8px;
+            font-style: italic;
+            opacity: .7;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            margin-top: 1px
+        }
+
+        .chart-src {
+            text-align: right;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text-accent);
+            margin-top: 4px;
+            padding-right: 6px
+        }
+
+        .chart-disc {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(93, 64, 55, .06);
+            border-top: 1px solid rgba(93, 64, 55, .25);
+            font-size: 10.5px;
+            line-height: 1.55;
+            color: var(--text-muted)
+        }
+
+        .chart-disc b {
+            color: var(--text-accent)
+        }
+
+        /* ── chart legend strip ── */
+        .legend {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding: 10px 14px;
+            background: rgba(226, 214, 192, .25)
+        }
+
+        .lg {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 11.5px;
+            color: var(--text-primary)
+        }
+
+        .lg .ln {
+            width: 26px;
+            height: 0;
+            flex: 0 0 auto;
+            margin-top: 7px
+        }
+
+        .lg .ln.red {
+            border-top: 2px solid var(--r)
+        }
+
+        .lg .ln.grn {
+            border-top: 2px dashed var(--g)
+        }
+
+        .lg .ln.yel {
+            border-top: 2.5px solid var(--b)
+        }
+
+        .lg.blu b {
+            color: var(--b)
+        }
+
+        .lg b {
+            color: var(--text-accent)
+        }
+
+        .lg small {
+            color: var(--text-muted);
+            font-style: italic
+        }
+
+        .lgtxt {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.45
+        }
+
+        .lgtxt .tag {
+            font-style: normal;
+            font-weight: 700;
+            font-size: 9px;
+            text-transform: none;
+            letter-spacing: .3px;
+            color: var(--text-accent);
+            margin-top: 3px;
+            border-top: 1px dashed rgba(93, 64, 55, .3);
+            padding-top: 3px;
+            width: fit-content
+        }
+
+        .lgtxt .tag.data {
+            color: var(--g)
+        }
+
+        .lgtxt .tag.concept {
+            color: var(--text-muted);
+            font-style: italic;
+            font-weight: 600
+        }
+
+        /* ── SECTION 4 · context length performance ── */
+        .ctx-section {
+            margin: 30px 0;
+            padding: 14px 16px;
+            background: rgba(226, 214, 192, .3)
+        }
+
+        .ctx-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 8px
+        }
+
+        .ctx-title {
+            display: flex;
+            align-items: center;
+            color: var(--b);
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .6px
+        }
+
+        .ctx-date {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-style: italic
+        }
+
+        .ctx-chart {
+            width: 100%;
+            height: 320px;
+            margin-top: 4px
+        }
+
+        .ctx-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px
+        }
+
+        .ctx-note {
+            padding: 10px 11px;
+            background: rgba(226, 214, 192, .45);
+            border-top: 2px solid rgba(31, 92, 138, .65)
+        }
+
+        .ctx-note h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .45px;
+            color: var(--text-accent);
+            margin-bottom: 5px
+        }
+
+        .ctx-note p,
+        .ctx-note li {
+            font-size: 11px;
+            line-height: 1.45;
+            color: var(--text-primary)
+        }
+
+        .ctx-note ul {
+            margin: 0;
+            padding-left: 14px
+        }
+
+        .ctx-note b {
+            color: var(--text-accent)
+        }
+
+        .ctx-term {
+            border-bottom: 1px dotted rgba(93, 64, 55, .55);
+            cursor: help
+        }
+
+        /* ── SECTION 4 · IQ & AI mistakes ── */
+        .panel {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px
+        }
+
+        .clf-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 11px;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(93, 64, 55, .25)
+        }
+
+        .clf-row span:first-child {
+            color: var(--text-muted)
+        }
+
+        .clf-row span:last-child {
+            color: var(--text-accent);
+            font-weight: 700;
+            text-align: right
+        }
+
+        .formula {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            background: rgba(138, 90, 0, .1);
+            padding: 7px 9px;
+            border-radius: 3px;
+            color: var(--y);
+            line-height: 1.5;
+            margin: 6px 0
+        }
+
+        .risk {
+            margin-top: 9px;
+            padding: 9px 11px;
+            background: rgba(138, 3, 3, .06);
+            border-left: 2px solid var(--r)
+        }
+
+        .risk-lbl {
+            display: block;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--r);
+            margin-bottom: 5px
+        }
+
+        .risk p {
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin: 0 0 5px
+        }
+
+        .risk p:last-child {
+            margin-bottom: 0
+        }
+
+        .soln {
+            margin: 9px 0;
+            padding: 9px 11px;
+            background: rgba(21, 81, 36, .07);
+            border-left: 2px solid var(--g)
+        }
+
+        .soln-lbl {
+            display: block;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--g);
+            margin-bottom: 5px
+        }
+
+        .soln p {
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin: 0 0 5px
+        }
+
+        .soln p:last-child {
+            margin-bottom: 0
+        }
+
+        .soln p.harness-note {
+            margin-top: 4px;
+            font-style: italic;
+            text-align: center;
+            font-size: 11px
+        }
+
+        .soln p.caveat+p.harness-note {
+            margin-top: 7px;
+            padding-top: 6px;
+            border-top: 1px dashed rgba(21, 81, 36, .35)
+        }
+
+        .soln p.caveat {
+            margin-top: 7px;
+            padding-top: 6px;
+            border-top: 1px dashed rgba(138, 3, 3, .3)
+        }
+
+        .pcard {
+            padding: 14px 16px;
+            background: rgba(226, 214, 192, .25)
+        }
+
+        .pcard h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: var(--text-accent);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .pcard h3 .ic {
+            font-size: 16px
+        }
+
+        .pcard p {
+            font-size: 12px;
+            line-height: 1.55;
+            color: var(--text-primary);
+            margin-bottom: 7px
+        }
+
+        .pcard .big {
+            font-size: 13px
+        }
+
+        .pcard b.g {
+            color: var(--g)
+        }
+
+        .pcard b.r {
+            color: var(--r)
+        }
+
+        .pcard b.y {
+            color: var(--y)
+        }
+
+        /* mini IQ bell curve */
+        .bell {
+            width: 100%;
+            height: 120px;
+            margin: 8px 0 6px
+        }
+
+        .refs {
+            margin-top: 6px;
+            border-top: 1px dashed rgba(93, 64, 55, .4);
+            padding-top: 6px
+        }
+
+        .refs .lbl {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: var(--text-accent);
+            display: block;
+            margin-bottom: 3px
+        }
+
+        .refs a {
+            display: block;
+            font-size: 10.5px;
+            color: var(--r);
+            text-decoration: none;
+            line-height: 1.5;
+            word-break: break-word;
+            font-family: var(--font-mono)
+        }
+
+        .refs a:hover {
+            text-decoration: underline
+        }
+
+        .refs a::before {
+            content: "↗ ";
+            color: var(--text-muted)
+        }
+
+        /* ── model comparison table (2026) ── */
+        .mtable {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 4px 0 2px
+        }
+
+        .mtable th,
+        .mtable td {
+            padding: 5px 8px;
+            font-size: 11px;
+            text-align: left;
+            border-bottom: 1px solid rgba(93, 64, 55, .18)
+        }
+
+        .mtable th {
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-size: 9.5px;
+            color: var(--text-accent);
+            font-weight: 700
+        }
+
+        .mtable td.tk {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--text-primary)
+        }
+
+        .mtable td.nm {
+            font-family: var(--font-mono);
+            text-align: right
+        }
+
+        .mtable .bar {
+            display: inline-block;
+            height: 7px;
+            border-radius: 1px;
+            vertical-align: middle;
+            margin-right: 5px
+        }
+
+        .mtable tr.best td {
+            background: rgba(21, 81, 36, .08)
+        }
+
+        .mtable tr.worst td {
+            background: rgba(138, 3, 3, .06)
+        }
+
+        .note {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.5;
+            margin-top: 5px
+        }
+
+        /* ── AI development formula full-width section ── */
+        .agi {
+            margin-top: 30px;
+            padding: 18px 22px;
+            background: rgba(226, 214, 192, .3)
+        }
+
+        .agi h2.f {
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-accent);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none
+        }
+
+        .agi .eq {
+            text-align: center;
+            font-size: 15px;
+            margin: 10px 0 6px;
+            color: var(--text-primary);
+            overflow-x: auto
+        }
+
+        .agi .sub {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 14px
+        }
+
+        .agi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        .piece {
+            padding: 11px 13px;
+            background: rgba(226, 214, 192, .45);
+            border-top: 2px solid var(--text-accent)
+        }
+
+        .piece .sym {
+            font-size: 13px;
+            color: var(--text-accent);
+            font-weight: 700;
+            margin-bottom: 4px
+        }
+
+        .piece .ti {
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 5px
+        }
+
+        .piece p {
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin: 0
+        }
+
+        .piece p b {
+            color: var(--text-accent)
+        }
+
+        @media(max-width:900px) {
+            .ctx-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media(max-width:760px) {
+            .agi-grid {
+                grid-template-columns: 1fr
+            }
+
+            .panel {
+                grid-template-columns: 1fr
+            }
+
+            .ctx-grid {
+                grid-template-columns: 1fr
+            }
+
+            .ctx-chart {
+                height: 280px
+            }
+        }
+
+        footer {
+            margin-top: 18px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            border-top: 1px solid var(--text-accent);
+            padding-top: 10px;
+            letter-spacing: .5px
+        }
+
+        footer .vi {
+            color: var(--text-accent)
+        }
+
+        /* ════════ ANIMATION & DETAIL LAYER ════════ */
+        .no-tr,
+        .no-tr *,
+        .no-tr *::before,
+        .no-tr *::after {
+            transition: none !important
+        }
+
+        /* Section 1 · hops draw one after another, each shorter and faster than the last */
+        .tl-dot,
+        .tl-pill {
+            transform-box: fill-box;
+            transform-origin: center
+        }
+
+        .tlx .tl-m,
+        .tlx .tl-pill,
+        .tlx .tl-ah {
+            opacity: 0
+        }
+
+        .tlx .tl-m.on,
+        .tlx .tl-pill.on,
+        .tlx .tl-ah.on {
+            opacity: 1
+        }
+
+        .tlx .tl-m.on .tl-dot,
+        .tlx .tl-pill.on {
+            animation: dvPop .5s cubic-bezier(.3, 1.8, .45, 1) backwards
+        }
+
+        .tlx .tl-m.on .tl-lab {
+            animation: labIn .5s ease-out backwards
+        }
+
+        .tlx .tl-ah.on {
+            animation: fadeIn .3s ease-out backwards
+        }
+
+        /* main chart · frame */
+        .gl.h {
+            transform-box: fill-box;
+            transform-origin: left center
+        }
+
+        .gl.v {
+            transform-box: fill-box;
+            transform-origin: center bottom
+        }
+
+        .chart-anim .gl {
+            transition: transform .9s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .chart-anim .gl.h {
+            transform: scaleX(0)
+        }
+
+        .chart-anim .gl.v {
+            transform: scaleY(0)
+        }
+
+        .chart-anim .gl.on {
+            transform: none
+        }
+
+        .chart-anim .axl,
+        .chart-anim .era-lab,
+        .chart-anim .fade {
+            opacity: 0;
+            transition: opacity .5s ease
+        }
+
+        .chart-anim .axl.on,
+        .chart-anim .era-lab.on,
+        .chart-anim .fade.on {
+            opacity: 1
+        }
+
+        /* device markers: pop + ripple when the curve's head passes their year */
+        .dv-core,
+        .dv-ring,
+        .dv-halo,
+        .dv-ripple,
+        .tip-burst,
+        .head-halo {
+            transform-box: fill-box;
+            transform-origin: center
+        }
+
+        .dv-ripple {
+            opacity: 0;
+            fill: none;
+            stroke: #8a0303;
+            stroke-width: 1.1
+        }
+
+        .dv-core,
+        .dv-ring {
+            transition: transform .15s ease
+        }
+
+        .chart-anim .dv,
+        .chart-anim .dlab,
+        .chart-anim .dlead,
+        .chart-anim .ann-g {
+            opacity: 0
+        }
+
+        .chart-anim .dv.on,
+        .chart-anim .dv.done,
+        .chart-anim .dlab.on,
+        .chart-anim .dlab.done,
+        .chart-anim .dlead.on,
+        .chart-anim .dlead.done,
+        .chart-anim .ann-g.on,
+        .chart-anim .ann-g.done {
+            opacity: 1
+        }
+
+        .chart-anim .dv.on .dv-core,
+        .chart-anim .dv.on .dv-ring {
+            animation: dvPop .5s cubic-bezier(.3, 1.8, .45, 1) backwards
+        }
+
+        .chart-anim .dv.on .dv-ripple {
+            animation: dvRipple .9s ease-out backwards
+        }
+
+        .chart-anim .dlab.on {
+            animation: labIn .5s ease-out backwards
+        }
+
+        .chart-anim .dlead.on,
+        .chart-anim .ann-g.on {
+            animation: fadeIn .45s ease-out backwards
+        }
+
+        @keyframes dvPop {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        @keyframes dvRipple {
+            from {
+                opacity: .75;
+                transform: scale(.2)
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(1)
+            }
+        }
+
+        @keyframes labIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* hover / focus highlight of one machine */
+        .dv.hl .dv-core {
+            transform: scale(1.7)
+        }
+
+        .dv.hl .dv-ring {
+            transform: scale(1.3)
+        }
+
+        .dlab.hl {
+            fill: #8a0303;
+            font-weight: 700
+        }
+
+        /* comet head + singularity tip */
+        .head-halo {
+            animation: headPulse 1.1s ease-in-out infinite
+        }
+
+        @keyframes headPulse {
+
+            0%,
+            100% {
+                transform: scale(.8);
+                opacity: .9
+            }
+
+            50% {
+                transform: scale(1.25);
+                opacity: .45
+            }
+        }
+
+        .tip-burst {
+            fill: none;
+            stroke: #e8742a;
+            stroke-width: 1.4;
+            opacity: 0
+        }
+
+        .tip-burst.on {
+            animation: tipBurst 1.5s ease-out both
+        }
+
+        .tip-burst.on.b2 {
+            animation-delay: .35s
+        }
+
+        @keyframes tipBurst {
+            from {
+                transform: scale(.3);
+                opacity: .85
+            }
+
+            to {
+                transform: scale(3.4);
+                opacity: 0
+            }
+        }
+
+        .tip-glow {
+            animation: tipGlow 2.8s ease-in-out infinite
+        }
+
+        @keyframes tipGlow {
+
+            0%,
+            100% {
+                opacity: .35
+            }
+
+            50% {
+                opacity: .9
+            }
+        }
+
+        /* crosshair (playhead during the intro, hover readout afterwards) */
+        .xh {
+            pointer-events: none;
+            transition: opacity .25s ease
+        }
+
+        .xh-badge rect {
+            fill: #5d4037
+        }
+
+        .xh-badge text {
+            fill: #fff;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700
+        }
+
+        .hit {
+            fill: transparent;
+            cursor: crosshair;
+            touch-action: manipulation;
+            outline: none
+        }
+
+        /* hover focus: all but the data lines fade to 50% (the item being read stays solid) */
+        .stage.idle .dimmable {
+            transition: opacity .25s ease
+        }
+
+        .stage.focus-lines .dimmable:not(.hl) {
+            opacity: .5 !important
+        }
+
+        /* default: event descriptions hidden; they cascade in on hover */
+        .stage.desc-mode .desc {
+            transition: opacity .35s ease
+        }
+
+        .stage.desc-mode .desc:not(.shown) {
+            opacity: 0 !important;
+            pointer-events: none
+        }
+
+        svg.chart:focus {
+            outline: none
+        }
+
+        svg.chart:focus-visible {
+            outline: 2px solid rgba(138, 3, 3, .45);
+            outline-offset: 4px
+        }
+
+        .tt {
+            position: absolute;
+            z-index: 5;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            width: max-content;
+            min-width: 170px;
+            max-width: 240px;
+            padding: 8px 10px 7px;
+            background: rgba(241, 233, 217, .97);
+            border: 1px solid rgba(93, 64, 55, .3);
+            border-top: 2px solid var(--r);
+            box-shadow: 0 6px 18px rgba(60, 30, 10, .18);
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--text-primary);
+            opacity: 0;
+            transition: opacity .15s ease
+        }
+
+        .tt.on {
+            opacity: 1
+        }
+
+        .tt-h {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            font-weight: 800;
+            color: var(--text-accent);
+            font-size: 11.5px
+        }
+
+        .tt-h .yr {
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-weight: 700
+        }
+
+        .tt-v {
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .tt-v .k {
+            width: 14px;
+            border-top: 2px solid var(--r);
+            flex: 0 0 auto
+        }
+
+        .tt-v b {
+            font-size: 14px;
+            color: var(--text-primary)
+        }
+
+        .tt-u,
+        .tt-e {
+            font-size: 9.5px;
+            color: var(--text-muted)
+        }
+
+        .tt-e {
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-top: 2px
+        }
+
+        .tt-n {
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px dashed rgba(93, 64, 55, .3)
+        }
+
+        .tt-n:empty {
+            display: none
+        }
+
+        .tt-p {
+            margin-top: 4px;
+            font-size: 9px;
+            font-style: italic;
+            color: var(--r)
+        }
+
+        .tt-p:empty {
+            display: none
+        }
+
+        /* hero card + annotation icons */
+        .card b {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .card b i {
+            display: block;
+            font-size: 9px;
+            font-weight: 600;
+            opacity: .75;
+            letter-spacing: .2px
+        }
+
+        .card b .yrtag {
+            float: none;
+            display: block;
+            width: fit-content;
+            margin: 3px 0 0;
+            padding: 0 4px;
+            font-style: normal;
+            font-size: 8.5px;
+            line-height: 1.45
+        }
+
+        .card .ico {
+            width: 30px;
+            height: 24px;
+            flex: 0 0 auto;
+            color: var(--text-accent)
+        }
+
+        /* below-chart controls + table view */
+        .chart-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            margin-top: 6px
+        }
+
+        .chart-foot .chart-src {
+            margin-top: 0
+        }
+
+        .replay {
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-accent);
+            background: transparent;
+            border: 1px solid rgba(93, 64, 55, .45);
+            border-radius: 14px;
+            padding: 3px 12px 3px 10px;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease
+        }
+
+        .replay:hover {
+            background: var(--text-accent);
+            color: #fff
+        }
+
+        .replay:focus-visible {
+            outline: 2px solid var(--r);
+            outline-offset: 2px
+        }
+
+        .hint {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-left: 10px
+        }
+
+        .chart-anim~.legend .lg,
+        .legend .lg {
+            transition: opacity .5s ease
+        }
+
+        .legend.lg-anim .lg {
+            opacity: .3
+        }
+
+        .legend.lg-anim .lg.on {
+            opacity: 1
+        }
+
+        .dtable {
+            margin-top: 10px;
+            font-size: 11px
+        }
+
+        .dtable summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-accent);
+            font-size: 11.5px;
+            padding: 6px 2px;
+            list-style: none
+        }
+
+        .dtable summary::-webkit-details-marker {
+            display: none
+        }
+
+        .dtable summary::before {
+            content: "▸ "
+        }
+
+        .dtable[open] summary::before {
+            content: "▾ "
+        }
+
+        .dtable .wrap {
+            max-height: 360px;
+            overflow: auto;
+            border-top: 1px solid rgba(93, 64, 55, .25)
+        }
+
+        .dtable table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .dtable th,
+        .dtable td {
+            text-align: left;
+            padding: 4px 8px;
+            border-bottom: 1px solid rgba(93, 64, 55, .14);
+            vertical-align: top
+        }
+
+        .dtable th {
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text-accent);
+            position: sticky;
+            top: 0;
+            background: var(--bg-body)
+        }
+
+        .dtable td.y,
+        .dtable td.v {
+            font-family: var(--font-mono);
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums
+        }
+
+        .dtable tr.proj td {
+            color: var(--text-muted);
+            font-style: italic
+        }
+
+        /* phones: keep the chart legible — scroll it sideways instead of shrinking it */
+        @media(max-width:760px) {
+            .stage {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch
+            }
+
+            .stage svg.chart {
+                min-width: 880px
+            }
+
+            .tl {
+                overflow-x: auto;
+                padding-bottom: 6px
+            }
+
+            .tl-svg {
+                min-width: 760px
+            }
+
+            .tl-note {
+                margin-left: 28px;
+                padding-left: 0
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .head-halo,
+            .tip-glow {
+                animation: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sheet">
+
+        <h1>
+            <span>Điểm Kỳ Dị
+                <span class="vi"> · The Road to the Singularity</span>
+            </span>
+            <span class="stamp" id="stamp"></span>
+        </h1>
+
+        <!-- ════════ SECTION 1 · ACCELERATING PACE ════════ -->
+        <div class="tl-wrap">
+            <div class="tl-head sec-title"><span class="tl-ttl"><span class="badge">1</span>Nhịp độ thay đổi ngày càng tăng tốc …</span></div>
+            <div class="tl">
+                <svg class="tl-svg" id="tlsvg" viewBox="0 0 1180 152" role="img"
+                    aria-label="Cách mạng Nông nghiệp → 8.000 năm → Cách mạng Công nghiệp (~1760) → 120 năm → Bóng đèn điện (1879) → 90 năm → Đặt chân lên Mặt Trăng (1969) → 22 năm → World Wide Web (1991) → 9 năm → Giải mã bộ gen người (2000)">
+                </svg>
+            </div>
+        </div>
+
+        <!-- ════════ MAIN CHART ════════ -->
+        <div class="stage">
+            <svg class="chart" viewBox="0 0 1180 620" preserveAspectRatio="xMidYMid meet" id="svg">
+                <defs>
+                    <linearGradient id="curveGrad" x1="0" y1="1" x2="1" y2="0">
+                        <stop offset="0" stop-color="#7a0202" />
+                        <stop offset="0.5" stop-color="#b8331f" />
+                        <stop offset="1" stop-color="#e8742a" />
+                    </linearGradient>
+                    <linearGradient id="futureGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#7a6f5c" stop-opacity="0" />
+                        <stop offset="1" stop-color="#5d4037" stop-opacity="0.16" />
+                    </linearGradient>
+                    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#b8331f" stop-opacity="0.16" />
+                        <stop offset="1" stop-color="#b8331f" stop-opacity="0" />
+                    </linearGradient>
+                    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#5a1a06" flood-opacity="0.28" />
+                    </filter>
+                    <filter id="dotGlow" x="-80%" y="-80%" width="260%" height="260%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#8a0303" flood-opacity="0.55" />
+                    </filter>
+                    <filter id="trailBlur" x="-5%" y="-5%" width="110%" height="110%">
+                        <feGaussianBlur stdDeviation="1.7" />
+                    </filter>
+                    <radialGradient id="headGlow">
+                        <stop offset="0" stop-color="#ffe2b0" stop-opacity="0.95" />
+                        <stop offset="0.45" stop-color="#e8742a" stop-opacity="0.42" />
+                        <stop offset="1" stop-color="#e8742a" stop-opacity="0" />
+                    </radialGradient>
+                </defs>
+
+                <!-- future projection shade -->
+                <rect id="futureRect" x="0" y="0" width="0" height="0" fill="url(#futureGrad)" />
+
+                <g id="grid"></g>
+                <g id="expertline"></g>
+                <g id="eras"></g>
+                <g id="axes"></g>
+                <path id="curveArea" fill="url(#areaGrad)" stroke="none" />
+                <g id="leaders"></g>
+                <path id="curve" fill="none" stroke="url(#curveGrad)" stroke-width="1.6" stroke-linecap="round"
+                    stroke-linejoin="round" filter="url(#soft)" />
+                <g id="arrow"></g>
+                <g id="dots"></g>
+                <g id="labels"></g>
+
+                <!-- ░░ overlay cards (foreignObject) ░░ -->
+                <foreignObject class="fo-blk" data-at="0" x="6" y="2" width="262" height="120">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="blk">
+                        <div class="h"><span class="badge">2</span>…sức mạnh tính toán tăng theo cấp số nhân …</div>
+                        Công nghệ máy tính, thể hiện ở đây leo dốc mạnh mẽ theo <b>lũy thừa của 10</b>, nay tiến bộ
+                        trong mỗi giờ còn nhiều hơn cả 90 năm đầu tiên cộng lại.
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="fo-blk" data-at="0" x="6" y="196" width="172" height="62">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="rank">XẾP HẠNG MÁY TÍNH
+                        <small>Theo số phép tính mỗi giây, trên mỗi 1.000 USD</small>
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="hero-card" data-yr="1900" x="6" y="282" width="154" height="168">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="card">
+                        <b><svg class="ico" viewBox="0 0 32 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 3.5h28M2 22.5h28M4 22.5v2.5M28 22.5v2.5M8 3.5v19M14 3.5v19M20 3.5v19M26 3.5v19" /><path d="M5.6 7h4.8M5.6 10.5h4.8M5.6 14h4.8M5.6 17.5h4.8M11.6 7h4.8M11.6 10.5h4.8M11.6 14h4.8M11.6 17.5h4.8M17.6 7h4.8M17.6 10.5h4.8M17.6 14h4.8M17.6 17.5h4.8M23.6 7h4.8M23.6 10.5h4.8M23.6 14h4.8M23.6 17.5h4.8" stroke-width="1.6" /></g></svg><span>Máy phân tích<i>Analytical Engine</i><em class="yrtag">1900</em></span></b>Chưa
+                        từng được chế tạo hoàn chỉnh, phát minh của Charles Babbage được thiết kế để giải các bài toán
+                        tính toán và logic.
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="hero-card" data-yr="1943" x="168" y="232" width="140" height="150">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="card">
+                        <b><svg class="ico" viewBox="0 0 32 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><rect x="1.5" y="2.5" width="17" height="21" rx="1" /><path d="M1.5 9.5h17M1.5 16.5h17M4.5 20h11M21 6.5h9.5v15H21" /><circle cx="25.8" cy="14" r="4" /><circle cx="25.8" cy="14" r="1.1" /><g fill="currentColor" stroke="none"><circle cx="5" cy="6" r="1.1" /><circle cx="8.5" cy="6" r="1.1" /><circle cx="12" cy="6" r="1.1" /><circle cx="15.5" cy="6" r="1.1" /><circle cx="5" cy="13" r="1.1" /><circle cx="8.5" cy="13" r="1.1" /><circle cx="12" cy="13" r="1.1" /><circle cx="15.5" cy="13" r="1.1" /></g></g></svg><span>Colossus<em class="yrtag">1943</em></span></b>Máy
+                        tính điện tử với 1.500 đèn chân không, đã giúp người Anh phá mã của quân Đức trong Thế chiến II.
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="hero-card" data-yr="1951" x="300" y="172" width="140" height="158">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="card">
+                        <b><svg class="ico" viewBox="0 0 32 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><rect x="1.5" y="2" width="9" height="21.5" rx="1" /><circle cx="6" cy="7.5" r="2.4" /><circle cx="6" cy="14.5" r="2.4" /><path d="M3.5 20.3h5M15 11.5h13.5M13.5 23.5l2.2-6h12.6l2.2 6z" /><rect x="13" y="2" width="17.5" height="12.5" rx="1" /><g fill="currentColor" stroke="none"><circle cx="16.5" cy="5.5" r=".85" /><circle cx="19.5" cy="5.5" r=".85" /><circle cx="22.5" cy="5.5" r=".85" /><circle cx="25.5" cy="5.5" r=".85" /><circle cx="16.5" cy="8.5" r=".85" /><circle cx="19.5" cy="8.5" r=".85" /><circle cx="22.5" cy="8.5" r=".85" /><circle cx="25.5" cy="8.5" r=".85" /></g></g></svg><span>UNIVAC I<em class="yrtag">1951</em></span></b>Máy
+                        tính thương mại đầu tiên được bán ra thị trường, dùng để xử lý Tổng điều tra dân số Mỹ, chiếm
+                        thể tích 943 feet khối.
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="hero-card" data-yr="1977" x="432" y="116" width="150" height="168">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="card">
+                        <b><svg class="ico" viewBox="0 0 32 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><rect x="7" y="1.5" width="18" height="13" rx="2" /><rect x="9.6" y="4" width="12.8" height="8" rx="1" fill="currentColor" fill-opacity=".16" /><path d="M11 6.6h5M11 8.8h7" /><path d="M5.5 16.5h21l3 7.5h-27z" /><path d="M7.6 19.3h16.8M6.9 21.7h18.2" stroke-dasharray="1.3 .9" /></g></svg><span>Apple II<em class="yrtag">1977</em></span></b>Với
+                        giá 1.298 USD, cỗ máy nhỏ gọn này là một trong những máy tính cá nhân đầu tiên phổ biến rộng rãi.
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="fo-blk" data-at="2011" x="590" y="60" width="222" height="96">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="blk s3">
+                        <span class="h"><span class="badge">3</span>…sẽ dẫn tới<br>Điểm Kỳ Dị</span>
+                    </div>
+                </foreignObject>
+
+                <foreignObject class="hero-card" data-yr="1999" x="734" y="364" width="150" height="114">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="card">
+                        <b><svg class="ico" viewBox="0 0 32 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><rect x="9.5" y="4.5" width="13" height="17" rx="1.5" /><path d="M9.5 7.5V2h13v5.5M9.5 18.5V24h13v-5.5M12.5 8.5h7" /><circle cx="16" cy="14" r="2" /></g></svg><span>Power Mac G4<em class="yrtag">1999</em></span></b>Máy
+                        tính cá nhân đầu tiên đạt hơn 1 tỷ phép tính dấu phẩy động mỗi giây.
+                    </div>
+                </foreignObject>
+
+                <!-- right-side brain annotations (Kurzweil projections, not measured facts) -->
+                <foreignObject class="ann-fo" data-yr="2015" x="628" y="152" width="150" height="54">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="ann">
+                        <span>Đạt mức FLOPS tương đương não <b>chuột</b> · 2015 <small class="proj">dự
+                                phóng</small></span>
+                    </div>
+                </foreignObject>
+                <foreignObject class="ann-fo" data-yr="2023" x="812" y="108" width="155" height="56">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="ann">
+                        <span>Đạt mức FLOPS tương đương não <b>người</b> · 2023 <small class="proj">dự
+                                phóng</small></span>
+                    </div>
+                </foreignObject>
+                <foreignObject class="ann-fo" data-yr="2045" x="838" y="2" width="212" height="92">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="ann brains">
+                        <span><span class="yr">2045</span>FLOPS tương đương <b>toàn bộ não người cộng lại</b> <small
+                                class="proj">dự phóng Kurzweil</small></span>
+                    </div>
+                </foreignObject>
+
+            </svg>
+            <div class="tt" id="tt" role="status" aria-live="polite"></div>
+        </div>
+        <div class="chart-foot">
+            <div><button type="button" class="replay" id="replay">↻ Phát lại hoạt ảnh</button></div>
+            <div class="chart-src">Nguồn: Tạp chí Time (2011), dựa trên Ray Kurzweil</div>
+        </div>
+
+        <!-- ════════ LEGEND · 3 ĐƯỜNG CONG ════════ -->
+        <div class="legend">
+            <span class="lg"><span class="ln red"></span><span class="lgtxt"><b>Sức mạnh máy tính</b> <small>FLOPS ·
+                        powers of 10</small><em class="tag">Compute → Machine Learning → Problem solving</em><em
+                        class="tag data">● Dữ liệu lịch sử (đo được)</em></span></span>
+            <span class="lg"><span class="ln grn"></span><span class="lgtxt"><b>Tri thức chuyên gia</b> <small>Domain
+                        Expert · ngưỡng quy ước</small><em class="tag concept">○ Mô hình khái niệm (không phải
+                        FLOPS)</em></span></span>
+            <span class="lg blu"><span class="ln yel"></span><span class="lgtxt"><b>Đường Tắt Nhận Thức</b>
+                    <small>Cognitive Bypass · AI-Augmented Non-Expert</small><em class="tag concept">○ Mô hình khái niệm
+                        (suy diễn)</em></span></span>
+        </div>
+        <details class="dtable" id="dtable">
+            <summary>Bảng dữ liệu · các cỗ máy trên đường cong</summary>
+            <div class="wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Năm</th>
+                            <th>Cỗ máy</th>
+                            <th>Phép tính/giây · 1.000 USD <small>(đọc trên đường xu hướng)</small></th>
+                            <th>Thời kỳ</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </details>
+
+        <!-- ════════ SECTION 4 · CONTEXT LENGTH PERFORMANCE ════════ -->
+        <section class="ctx-section" aria-label="Hiệu suất context length so với độ chính xác">
+            <div class="ctx-head">
+                <div class="ctx-title"><span class="badge" style="background:var(--b)">4</span>Cho AI đọc càng dài, càng
+                    dễ nhầm</div>
+            </div>
+            <div id="contextLineChart" class="ctx-chart"></div>
+            <div class="ctx-grid">
+                <div class="ctx-note">
+                    <h3>1. Việc dễ: tìm thông tin</h3>
+                    <ul>
+                        <li><b>Độ chính xác:</b> &gt;99.9%</li>
+                        <li><b>Rất giỏi</b> tìm một câu, một con số cụ thể dù nằm ở đâu trong văn bản dài.</li>
+                    </ul>
+                </div>
+                <div class="ctx-note">
+                    <h3>2. Việc khó: suy luận</h3>
+                    <ul>
+                        <li><b>Dưới 5 dữ kiện:</b> làm tốt. <b>Trên 20 dữ kiện:</b> đúng còn ~60%.</li>
+                        <li>Phải <b>nối nhiều mẩu tin rời rạc</b> lại với nhau là dễ suy luận sai.</li>
+                    </ul>
+                </div>
+                <div class="ctx-note">
+                    <h3>3. Điểm mù: phần giữa</h3>
+                    <p>Thông tin nằm ở <b>khúc giữa</b> bài (40%–60%) hay bị AI bỏ sót, trong khi phần đầu và cuối thì
+                        nhớ rõ.</p>
+                </div>
+                <div class="ctx-note">
+                    <h3>4. Vì sao nhầm?</h3>
+                    <p>Đọc quá nhiều cùng lúc khiến AI <b>khó phân biệt cái quan trọng với cái nhiễu</b> — như tìm kim
+                        trong đống rơm.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════ SECTION 5 · IQ & AI MISTAKES ════════ -->
+        <div class="panel">
+            <div class="pcard">
+                <h3><span class="badge">5</span><span class="ic">🧠</span>IQ trung bình</h3>
+                <p>IQ được tính sao cho mức trung bình của mọi người là <b class="g">100</b> <small>(mean = 100, normal
+                        distribution)</small>. Càng xa mức 100 thì càng hiếm người.</p>
+                <svg class="bell" viewBox="0 0 320 120" id="bell" aria-label="phân phối IQ"></svg>
+                <p class="big"><b class="g">~68%</b> số người nằm trong khoảng <b>85–115</b> <small>(±1 SD)</small>.</p>
+                <div class="clf-row"><span>Chuyên gia, người làm cấp cao <small>(High-achievers)</small></span><span
+                        class="g">115 – 130+</span></div>
+                <div class="clf-row"><span>Nhà khoa học, học giả <small>(Top 2% · Gifted)</small></span><span
+                        class="g">130 – 140+</span></div>
+                <p class="big" style="margin-top:6px">Nhóm này giải được những <b>bài toán khó</b> mà <b>chưa ai có lời
+                        giải</b> <small>(unsolved problems)</small>. <small
+                        style="color:var(--text-muted);font-style:italic">(Nhưng IQ không phải tất cả.)</small></p>
+                <div class="refs">
+                    <span class="lbl">Tham khảo</span>
+                    <a href="https://psychcentral.com/health/average-iq" target="_blank"
+                        rel="noopener">psychcentral.com/health/average-iq</a>
+                    <a href="https://en.wikipedia.org/wiki/IQ_classification" target="_blank"
+                        rel="noopener">en.wikipedia.org/wiki/IQ_classification</a>
+                    <a href="https://www.medicinenet.com/what_is_the_normal_range_for_iq/article.htm" target="_blank"
+                        rel="noopener">medicinenet.com — normal range for IQ</a>
+                </div>
+            </div>
+
+            <div class="pcard r">
+                <h3><span class="ic">⚠️</span>Sai lầm của AI (ảo giác · hallucination)</h3>
+                <p>AI dù mạnh vẫn <b class="r">bịa thông tin</b> một cách rất tự tin <small>(hallucination)</small>. Đây
+                    là tật cố hữu — <b class="r">không thể xóa sạch hoàn toàn</b>, chỉ giảm bớt được <small>(Cossio,
+                        2025)</small>.</p>
+                <p class="big">• <b>Kịch bản đối kháng, y khoa</b> <small>(adversarial)</small>: tỷ lệ ảo giác lên tới
+                    <b class="r">50–82%</b> — đây là tình huống cố tình gài bẫy, <b>không phải</b> dùng thường ngày.<br>
+                    • Hỏi khéo <small>(prompt engineering)</small> kéo tỷ lệ sai từ <b class="r">66%</b> xuống <b
+                        class="y">44%</b>; bản GPT-4o: <b class="r">53%</b> → <b class="y">23%</b>.<br>
+                    • Tóm tắt tài liệu thông thường <small>(Vectara HHEM)</small>: chỉ <b class="y">~3–20%</b>, tùy mô
+                    hình.</p>
+                <div class="soln">
+                    <span class="soln-lbl">✔ Cách khắc phục: chia nhỏ việc cho nhiều “trợ lý AI” ·
+                        Orchestrator-Worker</span>
+                    <p>Một AI chính <small>(Orchestrator)</small> đứng ra <b>chia việc lớn thành nhiều việc nhỏ</b>,
+                        giao cho các trợ lý AI phụ <small>(subagents / Workers)</small> làm. Việc nào có quy tắc rõ ràng
+                        <small>(deterministic)</small> thì <b class="g">để máy chạy script</b> thay vì bắt AI tự đoán —
+                        bớt sai. Dùng <b class="g">memory management</b>, skills &amp; workflows — cả lớp điều phối này
+                        gọi chung là <b class="g">harness</b> — để AI không quên ngữ cảnh giữa chừng.</p>
+                    <p>AI chính chỉ lo <b>nghĩ ra kế hoạch</b> <small>(Planning)</small>, còn các trợ lý <b
+                            class="g">kiểm tra chéo</b> <small>(cross-validation)</small> lẫn nhau để bắt lỗi.</p>
+                    <p class="caveat"><b class="r">⚠ Lưu ý:</b> (a) Nếu AI chính <b class="r">chia việc sai từ đầu</b>
+                        thì cả hệ thống làm sai theo. (b) Phải <b>tóm tắt</b> <small>(summarize)</small> kết quả của trợ
+                        lý lại, không thì AI chính bị <b class="r">quá tải ngữ cảnh</b> <small>(context
+                            overflow)</small>. Tất cả phụ thuộc vào <b>khâu lập kế hoạch</b> của AI chính.</p>
+                    <p class="harness-note">Lớp khung do <b>công ty AI dựng sẵn</b> (tool, sandbox, agent loop, safety)
+                        — cố định, áp cho mọi người = <b class="g">System harness</b>.</p>
+                    <p class="harness-note">Tích lũy, tinh chỉnh skill, workflow steps, <b class="g">run and refine</b>
+                        cho tới khi chạy đúng ý — user tự xây, riêng cho việc của mình = <b class="g">User's
+                            harness</b>.</p>
+                </div>
+                <div class="refs">
+                    <span class="lbl">Tham khảo (nghiên cứu)</span>
+                    <a href="https://arxiv.org/abs/2401.03205" target="_blank" rel="noopener">06/01/2024 · arXiv
+                        2401.03205 — Empirical Study on Factuality Hallucination (HaluEval 2.0)</a>
+                    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12318031/" target="_blank"
+                        rel="noopener">02/08/2025 · PMC12318031 — Adversarial Hallucination in Clinical Decision
+                        Support</a>
+                    <a href="https://arxiv.org/abs/2508.01781" target="_blank" rel="noopener">03/08/2025 · arXiv
+                        2508.01781 — Comprehensive Taxonomy of Hallucinations in LLMs</a>
+                    <a href="https://www.mdpi.com/2078-2489/16/7/517" target="_blank" rel="noopener">2025 · MDPI
+                        Information 16(7):517 — Mitigating LLM Hallucinations Using a Multi-Agent Framework</a>
+                    <a href="https://arxiv.org/pdf/2412.04141" target="_blank" rel="noopener">12/2024 · arXiv 2412.04141
+                        — Reducing Tool Hallucination via Reliability Alignment</a>
+                </div>
+            </div>
+
+            <div class="pcard">
+                <h3 style="color:var(--y)"><span class="ic">⚡</span>AI mở rộng năng lực cho mọi người</h3>
+                <p><b class="y">Đòn bẩy nhận thức</b> <small>(Cognitive Leverage Factor · CLF)</small> — phản ánh thành
+                    quả công việc một người tạo ra so với thời gian học chuyên môn cần thiết.</p>
+                <div class="formula">CLF = (Thành quả công việc / Output) ÷ (Số năm đào tạo / Training years)</div>
+                <div class="clf-row"><span>Người dùng phổ thông, chưa có AI <small>(Non-Expert,
+                            pre-2022)</small></span><span class="r">thấp · low</span></div>
+                <div class="clf-row"><span>Chuyên gia trong ngành <small>(Domain Expert)</small></span><span>cao ·
+                        high</span></div>
+                <div class="clf-row"><span>Người dùng phổ thông + AI <small>(AI-Augmented)</small></span><span
+                        class="y">10–50× <small>*</small></span></div>
+                <p class="big" style="margin-top:7px">Với sự hỗ trợ của AI, người <b>chưa qua đào tạo chuyên sâu</b> vẫn
+                    có thể tiếp cận nhiều công việc vốn dành cho chuyên gia — như <b class="r">phân tích, lập
+                        luận</b><b>, dịch thuật, viết code</b> <small>(reasoning, analysis, translation, coding)</small>
+                    — rút ngắn đáng kể thời gian học hỏi.</p>
+                <p class="big" style="font-size:10px;color:var(--text-muted);font-style:italic;margin-top:2px"><b>*</b>
+                    con số minh họa khái niệm, chưa có thước đo chuẩn hóa.</p>
+                <div class="risk">
+                    <span class="risk-lbl">⚠ Điều cần lưu tâm · The Cognitive Dark Side</span>
+                    <p><b class="r">Cảm giác thành thạo</b> <small>(Illusion of Competence)</small> đôi khi đến từ việc
+                        <b>đang dựa vào năng lực của AI</b> hơn là của chính mình.</p>
+                    <p>AI dù mạnh đến đâu cũng <b class="r">chỉ phát huy được trong giới hạn</b> hiểu biết nền tảng
+                        <small>(conceptual framework)</small> và <b>tư duy phản biện</b> của người dùng. Đây là những
+                        công cụ tư duy ta <b>vận dụng</b> qua AI — nền tảng càng vững, kết quả càng sâu sắc.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════ SECTION 6 · AI DEVELOPMENT FORMULA ════════ -->
+        <div class="agi">
+            <h2 class="f"><span class="badge" style="background:var(--text-accent)">6</span>🧬 AI development</h2>
+            <div class="agi-grid">
+                <div class="piece">
+                    <div class="sym">Unified Cognitive Core</div><span class="ti">Lõi nhận thức nhất quán</span>
+                    <p>Bộ não trung tâm của AI. Không chỉ nhớ nhiều dữ liệu, mà còn biết <b>tự nhìn lại mình</b>
+                        <small>(meta-cognition)</small>, <b>suy luận nhân–quả</b> <small>(causal reasoning)</small> và
+                        liên hệ kiến thức chéo giữa các lĩnh vực <small>(cross-domain transfer)</small>.</p>
+                </div>
+                <div class="piece">
+                    <div class="sym">Multimodal Perception</div><span class="ti">Nhận thức đa giác quan</span>
+                    <p>AI có “giác quan”. Không chỉ nhìn hình ảnh <small>(vision)</small>, mà còn <b>nghe</b>
+                        <small>(audio)</small>, <b>cảm nhận lực chạm</b> <small>(haptic)</small>, <b>đo chiều sâu</b>
+                        <small>(depth sensing)</small> cùng lúc để hiểu thế giới xung quanh.</p>
+                </div>
+                <div class="piece">
+                    <div class="sym">Spatiotemporal Physics Grounding</div><span class="ti">Neo đậu vật lý Không–thời
+                        gian</span>
+                    <p>AI dựng <b>mô hình thế giới</b> <small>(world model)</small>: hiểu quy luật vật lý — vật rơi, va
+                        chạm, đẩy nhau ra sao — và <b>phân tích nhân–quả để dự đoán, thích nghi</b> với thế giới thật
+                        <small>(causal prediction &amp; adaptation)</small> trước khi hành động.</p>
+                </div>
+                <div class="piece">
+                    <div class="sym">Embodied Actuation</div><span class="ti">Hóa thân thể chất</span>
+                    <p><b>Robotic</b> <small>(embodiment)</small>. AI bước ra khỏi màn hình, dùng <b>thân máy</b> tác
+                        động vào thế giới thật và học từ chính những va chạm, phản hồi đó <small>(sensorimotor feedback
+                            loop)</small>.</p>
+                </div>
+                <div class="piece">
+                    <div class="sym">Agentic Autonomy</div><span class="ti">Ý chí tự quyết</span>
+                    <p>AI <b>tự đặt mục tiêu</b> <small>(self-directed goals)</small>, <b>tự lên kế hoạch</b>
+                        <small>(long-horizon planning)</small>, tự theo dõi và <b>tự sửa sai</b>
+                        <small>(self-correction)</small> mà không cần người ra lệnh từng bước.</p>
+                </div>
+                <div class="piece">
+                    <div class="sym">Dynamic Plasticity</div><span class="ti">Tính dẻo thích ứng liên tục</span>
+                    <p>AI <b>vừa làm vừa học</b> ngay tức thì <small>(real world / online learning)</small>. Gặp cái mới
+                        là cập nhật luôn <small>(continual learning)</small>, không cần dừng lại để “học lại từ đầu”
+                        <small>(no static retraining)</small>.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <span class="vi">IQ &amp; ảo giác AI: xem mục tham khảo phía trên</span>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            const NS = "http://www.w3.org/2000/svg";
+            const svg = document.getElementById("svg");
+
+            function mk(tag, attrs, parent, text) {
+                const e = document.createElementNS(NS, tag);
+                for (const k in attrs) e.setAttribute(k, attrs[k]);
+                if (text != null) e.textContent = text;
+                (parent || svg).appendChild(e); return e;
+            }
+            const G = id => document.getElementById(id);
+
+            // main chart (sections 1–3) is drawn and animated by the "singularity-chart" script below
+
+            // date stamp dd/mm/yyyy — static last-updated date
+            G("stamp").textContent = "09/06/2026";
+
+            // ── mini IQ bell curve (Section 4) ──
+            (function () {
+                const b = document.getElementById("bell"); if (!b) return;
+                const W = 320, H = 120, base = H - 20, mid = W / 2, sd = 42, amp = 88;  // taller curve
+                const g = (x) => Math.exp(-0.5 * Math.pow((x - mid) / sd, 2));
+                let d = "M0 " + base;
+                for (let x = 0; x <= W; x += 2) { d += " L" + x + " " + (base - g(x) * amp).toFixed(1); }
+                d += " L" + W + " " + base + " Z";
+                // ±1 SD shaded band (68%)
+                let dband = "M" + (mid - sd) + " " + base;
+                for (let x = mid - sd; x <= mid + sd; x += 2) { dband += " L" + x + " " + (base - g(x) * amp).toFixed(1); }
+                dband += " L" + (mid + sd) + " " + base + " Z";
+                mk("path", { d: dband, fill: "#155124", "fill-opacity": .18 }, b);
+                mk("path", { d: d, fill: "none", stroke: "#5d4037", "stroke-width": 1.6 }, b);
+                // mean line
+                mk("line", { x1: mid, y1: base - amp - 2, x2: mid, y2: base, stroke: "#155124", "stroke-width": 1.3, "stroke-dasharray": "3 2" }, b);
+                // x ticks
+                [["70", mid - 2 * sd], ["85", mid - sd], ["100", mid], ["115", mid + sd], ["130", mid + 2 * sd]].forEach(([t, x]) => {
+                    mk("line", { x1: x, y1: base, x2: x, y2: base + 4, stroke: "#5d4037", "stroke-width": 1 }, b);
+                    mk("text", {
+                        x: x, y: base + 15, "font-size": 10, fill: "#5d4037", "text-anchor": "middle",
+                        "font-family": "var(--font-mono)"
+                    }, b, t);
+                });
+            })();
+
+            // ── context length vs accuracy chart (Section 4) ──
+            (function () {
+                const chartDom = document.getElementById("contextLineChart");
+                if (!chartDom || typeof echarts === "undefined") return;
+                const chart = echarts.init(chartDom, null, { renderer: "canvas" });
+                const contextLengths = ["0", "32K", "128K", "500K", "1M", "2M", "10M"];
+                const accuracyData = [100, 99, 96, 92, 85, 75, 60];
+                const hallucinationData = [0, 1, 4, 8, 15, 25, 45];
+                chart.setOption({
+                    backgroundColor: "transparent",
+                    tooltip: {
+                        trigger: "axis",
+                        backgroundColor: "rgba(226,214,192,.96)",
+                        borderColor: "#5d4037",
+                        textStyle: { color: "#2b2b2b", fontSize: 12 }
+                    },
+                    legend: {
+                        data: ["Độ Chính Xác (%)", "Tỷ lệ Ảo Giác (%)"],
+                        bottom: 4,
+                        textStyle: { fontSize: 11, color: "#5d4037" }
+                    },
+                    grid: { left: "4%", right: "4%", bottom: "18%", top: "18%", containLabel: true },
+                    xAxis: {
+                        type: "category",
+                        boundaryGap: false,
+                        data: contextLengths,
+                        name: "Độ dài ngữ cảnh (Tokens)",
+                        nameLocation: "middle",
+                        nameGap: 28,
+                        axisLine: { lineStyle: { color: "#5d4037" } },
+                        axisLabel: { fontSize: 11, color: "#5d4037" }
+                    },
+                    yAxis: {
+                        type: "value",
+                        max: 100,
+                        min: 0,
+                        name: "Tỷ lệ (%)",
+                        nameTextStyle: { color: "#5d4037", fontSize: 11 },
+                        axisLine: { show: true, lineStyle: { color: "#5d4037" } },
+                        splitLine: { lineStyle: { type: "dashed", color: "rgba(93,64,55,.24)" } },
+                        axisLabel: { fontSize: 11, color: "#5d4037" }
+                    },
+                    series: [
+                        {
+                            name: "Độ Chính Xác (%)",
+                            type: "line",
+                            data: accuracyData,
+                            smooth: true,
+                            lineStyle: { width: 1.7, color: "#155124" },
+                            symbol: "circle",
+                            symbolSize: 6,
+                            itemStyle: { color: "#155124" },
+                            markPoint: {
+                                data: [
+                                    { type: "max", name: "Max" },
+                                    { coord: ["1M", 85], value: "Điểm gãy", itemStyle: { color: "#8a0303" }, label: { position: "bottom", distance: 8, color: "#8a0303", fontSize: 11 } }
+                                ],
+                                label: { fontSize: 11, color: "#fff" }
+                            },
+                            markArea: {
+                                tooltip: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        const descriptions = {
+                                            "Vùng An Toàn (The Librarian Zone)": "0-500K tokens: truy xuất chi tiết cụ thể rất ổn định.",
+                                            "Vùng Chuyển Tiếp": "Hiệu năng bắt đầu giảm; mô hình vẫn nhớ nhưng không còn tuyệt đối.",
+                                            "Vùng Rủi Ro Cao (Lost in Middle)": ">1M tokens: dễ bỏ qua thông tin ở giữa context và tăng rủi ro ảo giác."
+                                        };
+                                        return "<div style='max-width:210px;white-space:normal'><b>" + params.name + "</b><br>" + (descriptions[params.name] || "") + "</div>";
+                                    },
+                                    backgroundColor: "rgba(226,214,192,.98)",
+                                    borderColor: "#5d4037",
+                                    borderWidth: 1,
+                                    textStyle: { color: "#2b2b2b" }
+                                },
+                                data: [
+                                    [{ name: "Vùng An Toàn (The Librarian Zone)", xAxis: "0", itemStyle: { color: "rgba(21,81,36,.11)" }, label: { position: "top", color: "#155124", fontSize: 11, fontWeight: "bold" } }, { xAxis: "500K" }],
+                                    [{ name: "Vùng Chuyển Tiếp", xAxis: "500K", itemStyle: { color: "rgba(138,90,0,.13)" }, label: { position: "top", color: "#8a5a00", fontSize: 11, fontWeight: "bold" } }, { xAxis: "1M" }],
+                                    [{ name: "Vùng Rủi Ro Cao (Lost in Middle)", xAxis: "1M", itemStyle: { color: "rgba(138,3,3,.10)" }, label: { position: "top", color: "#8a0303", fontSize: 11, fontWeight: "bold" } }, { xAxis: "10M" }]
+                                ]
+                            }
+                        },
+                        {
+                            name: "Tỷ lệ Ảo Giác (%)",
+                            type: "line",
+                            data: hallucinationData,
+                            smooth: true,
+                            lineStyle: { width: 1.7, color: "#8a0303" },
+                            symbol: "circle",
+                            symbolSize: 6,
+                            itemStyle: { color: "#8a0303" }
+                        }
+                    ]
+                });
+                window.addEventListener("resize", () => chart.resize());
+            })();
+        })();
+    </script>
+
+    <script id="singularity-chart">
+        /* ════════ MAIN CHART · draw + animate ════════
+           Story: frame → the curve climbs 1895→2045 (each machine pops as the head passes its year) →
+           arrival at 2045 → conceptual overlays (expert line, knowledge gap, cognitive bypass).
+           Plays once when scrolled into view · replay button · click to skip · static if reduced motion. */
+        (function () {
+            "use strict";
+            const NS = "http://www.w3.org/2000/svg";
+            const svg = document.getElementById("svg");
+            if (!svg) return;
+            const stage = svg.closest(".stage");
+            const G = id => document.getElementById(id);
+            function mk(tag, attrs, parent, text) {
+                const e = document.createElementNS(NS, tag);
+                for (const k in attrs) e.setAttribute(k, attrs[k]);
+                if (text != null) e.textContent = text;
+                (parent || svg).appendChild(e);
+                return e;
+            }
+            const REDUCED = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+            // ── geometry ──
+            const LX = 55, RX = 1060, TY = 30, BY = 535;
+            const Y0 = 1895, Y1 = 2045, pxYr = (RX - LX) / (Y1 - Y0);
+            const E0 = -5, E1 = 26, pxDec = (BY - TY) / (E1 - E0);
+            const xOf = y => LX + (y - Y0) * pxYr;
+            const yOf = e => BY - (e - E0) * pxDec;
+            const yrOfX = x => Y0 + (x - LX) / pxYr;
+            const PROJ = 2011;   // Time's chart (2011): measured history → projection
+            const NOW = 2026;    // knowledge-gap marker
+
+            // ── exponent(year): monotone cubic (Fritsch–Carlson) through the control points → smooth, no kinks ──
+            const ctrl = [
+                [1895, -3.9], [1900, -3.7], [1920, -3.3], [1940, -2.9], [1950, -2.0], [1960, -1.0],
+                [1970, 0.5], [1980, 2.1], [1990, 4.3], [2000, 6.4], [2010, 9.2], [2015, 11.2],
+                [2020, 13.2], [2030, 18.4], [2040, 23.6], [2045, 26.0]
+            ];
+            const expAt = (function () {
+                const xs = ctrl.map(p => p[0]), ys = ctrl.map(p => p[1]), n = xs.length, d = [], m = [];
+                for (let i = 0; i < n - 1; i++) d.push((ys[i + 1] - ys[i]) / (xs[i + 1] - xs[i]));
+                m[0] = d[0]; m[n - 1] = d[n - 2];
+                for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+                for (let i = 0; i < n - 1; i++) {
+                    const a = m[i] / d[i], b = m[i + 1] / d[i], s = a * a + b * b;
+                    if (s > 9) { const t = 3 / Math.sqrt(s); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; }
+                }
+                return yr => {
+                    yr = Math.max(xs[0], Math.min(xs[n - 1], yr));
+                    let i = 0; while (i < n - 2 && yr > xs[i + 1]) i++;
+                    const h = xs[i + 1] - xs[i], t = (yr - xs[i]) / h, t2 = t * t, t3 = t2 * t;
+                    return (2 * t3 - 3 * t2 + 1) * ys[i] + (t3 - 2 * t2 + t) * h * m[i] +
+                        (-2 * t3 + 3 * t2) * ys[i + 1] + (t3 - t2) * h * m[i + 1];
+                };
+            })();
+
+            // ── curve samples every ¼ year, with cumulative length → the head's year at any drawn length ──
+            const SAMP = [];
+            for (let k = 0; k <= (Y1 - Y0) * 4; k++) {
+                const yr = Y0 + k / 4, x = xOf(yr), y = yOf(expAt(yr)), pv = SAMP[k - 1];
+                SAMP.push({ yr, x, y, L: pv ? pv.L + Math.hypot(x - pv.x, y - pv.y) : 0 });
+            }
+            const TOTAL = SAMP[SAMP.length - 1].L;
+            const CURVE_D = SAMP.map((p, i) => (i ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join("");
+            function atLen(L) {
+                L = Math.max(0, Math.min(TOTAL, L));
+                let lo = 0, hi = SAMP.length - 1;
+                while (hi - lo > 1) { const md = (lo + hi) >> 1; if (SAMP[md].L < L) lo = md; else hi = md; }
+                const a = SAMP[lo], b = SAMP[hi], t = (L - a.L) / ((b.L - a.L) || 1);
+                return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, yr: a.yr + (b.yr - a.yr) * t };
+            }
+
+            // ── value formatting: 2,5 × 10⁶ ──
+            const SUPS = { "-": "⁻", "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
+            const sup = n => String(n).split("").map(c => SUPS[c]).join("");
+            function fmtVal(E) {
+                let n = Math.floor(E), m = Math.pow(10, E - n);
+                if (m >= 9.95) { m = 1; n++; }
+                return m.toFixed(1).replace(".", ",") + " × 10" + sup(n);
+            }
+
+            // ── data ──
+            const ERAS = [
+                [1900, 1937, "CƠ-ĐIỆN", "Cơ-điện · electromechanical"],
+                [1937, 1945, "RƠ-LE", "Rơ-le · relays"],
+                [1945, 1959, "ĐÈN CHÂN KHÔNG", "Đèn chân không · vacuum tubes"],
+                [1959, 1965, "BÓNG BÁN DẪN", "Bóng bán dẫn · transistors"],
+                [1965, 2045, "MẠCH TÍCH HỢP", "Mạch tích hợp · integrated circuits"]
+            ];
+            const eraOf = yr => ERAS.find(e => yr >= e[0] && yr < e[1]) || ERAS[yr < 1900 ? 0 : ERAS.length - 1];
+            // lp = preferred label side (u/d/l/r); the placer falls back to the nearest free spot
+            const DEVICES = [
+                { y: 1900, n: "Analytical Engine", hero: true, vi: "Máy phân tích của Charles Babbage — thiết kế cơ khí, chưa từng được chế tạo hoàn chỉnh." },
+                { y: 1908, n: "Hollerith\nTabulator", lp: "u", vi: "Máy lập bảng thẻ đục lỗ của Herman Hollerith, từng xử lý Tổng điều tra dân số Mỹ 1890." },
+                { y: 1919, n: "IBM\nTabulator", lp: "u", vi: "Máy lập bảng thẻ đục lỗ cơ-điện của CTR — công ty đổi tên thành IBM năm 1924." },
+                { y: 1928, n: "National\nEllis 3000", lp: "u", vi: "Máy kế toán cơ-điện của hãng National Cash Register (NCR)." },
+                { y: 1939, n: "Zuse 2", lp: "d", vi: "Z2 của Konrad Zuse (Đức): phần tính toán dùng rơ-le điện thoại." },
+                { y: 1941, n: "Zuse 3", lp: "u", vi: "Z3: máy tính số lập trình được, tự động hoàn toàn đầu tiên chạy được; ~2.600 rơ-le." },
+                { y: 1943, n: "Colossus", hero: true, vi: "1.500 đèn chân không; giúp người Anh giải mã điện tín của bộ chỉ huy Đức." },
+                { y: 1946, n: "ENIAC", lp: "u", vi: "~17.500 đèn chân không, nặng ~27 tấn, ~5.000 phép cộng mỗi giây." },
+                { y: 1948, n: "IBM SSEC", lp: "d", vi: "Máy lai điện tử–cơ điện: ~12.500 đèn chân không và ~21.400 rơ-le." },
+                { y: 1949, n: "BINAC", lp: "u", vi: "Máy tính chương trình lưu trữ đầu tiên ở Mỹ; 2 bộ xử lý chạy song song để tự kiểm tra chéo." },
+                { y: 1951, n: "UNIVAC I", hero: true, vi: "Máy tính thương mại đầu tiên ở Mỹ; xử lý số liệu Tổng điều tra dân số." },
+                { y: 1953, n: "EDVAC", lp: "d", vi: "Hiện thực ý tưởng “chương trình lưu trữ” trong bản thảo của von Neumann (1945); dùng hệ nhị phân." },
+                { y: 1955, n: "Whirlwind", lp: "u", vi: "Máy tính thời gian thực của MIT; tiên phong bộ nhớ lõi từ (magnetic core)." },
+                { y: 1958, n: "Datamatic\n1000", lp: "d", vi: "Máy tính doanh nghiệp cỡ lớn của liên doanh Honeywell–Raytheon, lưu dữ liệu trên băng từ." },
+                { y: 1960, n: "IBM 1620", lp: "u", vi: "Máy tính khoa học giá rẻ, rất phổ biến ở các trường đại học." },
+                { y: 1961, n: "DEC\nPDP-4", lp: "d", vi: "Máy tính mini 18-bit giá rẻ của Digital Equipment Corporation." },
+                { y: 1965, n: "IBM\n1130", lp: "u", vi: "Máy tính nhỏ cho kỹ sư và nhà khoa học — nơi nhiều người lần đầu học lập trình." },
+                { y: 1968, n: "DEC\nPDP-10", lp: "d", vi: "Máy chia sẻ thời gian (time-sharing) — “xương sống” của các phòng thí nghiệm AI đầu tiên." },
+                { y: 1969, n: "Data General\nNova", lp: "u", vi: "Máy tính mini 16-bit nhỏ gọn, giá phải chăng." },
+                { y: 1973, n: "Intellec-8", lp: "d", vi: "Hệ phát triển của Intel dùng vi xử lý 8008 — buổi đầu kỷ nguyên vi xử lý." },
+                { y: 1977, n: "Apple II", hero: true, vi: "Giá 1.298 USD — một trong những máy tính cá nhân đầu tiên phổ biến rộng rãi." },
+                { y: 1981, n: "IBM PC", lp: "u", vi: "Chip Intel 8088, 4,77 MHz — đặt chuẩn chung cho máy tính cá nhân." },
+                { y: 1986, n: "Compaq\nDeskpro 386", lp: "d", vi: "PC đầu tiên dùng chip Intel 80386 — ra mắt trước cả IBM." },
+                { y: 1993, n: "Pentium\nPC", lp: "r", vi: "Thế hệ chip Pentium đầu tiên (60–66 MHz)." },
+                { y: 1997, n: "Pentium II\nPC", lp: "r", vi: "Pentium II, tích hợp tập lệnh đa phương tiện MMX." },
+                { y: 1999, n: "Power Mac G4", hero: true, vi: "Máy tính cá nhân đầu tiên vượt 1 tỷ phép tính dấu phẩy động mỗi giây." },
+                { y: 2004, n: "Dell Dimension\n8400", lp: "r", vi: "Máy để bàn dùng Pentium 4 thời xung nhịp ~3–3,8 GHz." },
+                { y: 2006, n: "Mac Pro", lp: "l", vi: "Máy trạm 4 nhân (2 chip Intel Xeon lõi kép)." },
+                { y: 2008, n: "Nvidia Tesla\nGPU & PC", lp: "r", vi: "GPU tính toán đa dụng (CUDA) — loại phần cứng về sau thúc đẩy học sâu (deep learning)." }
+            ];
+            DEVICES.forEach((dv, i) => {
+                dv.i = i; dv.x = xOf(dv.y); dv.cy = yOf(expAt(dv.y)); dv.E = expAt(dv.y);
+                dv.label = dv.n.replace("\n", " ");
+            });
+
+            // ════ STATIC LAYERS ════
+            const gGrid = G("grid"), gAxes = G("axes"), gEras = G("eras"), gLead = G("leaders"),
+                gDots = G("dots"), gLabs = G("labels"), defs = svg.querySelector("defs");
+            const grids = [], axls = [];
+
+            // projection zone (Time's data ends 2011; everything right of it is Kurzweil's projection)
+            const fx = xOf(PROJ), futureRect = G("futureRect");
+            [["x", fx], ["y", TY], ["width", RX - fx], ["height", BY - TY]].forEach(([k, v]) => futureRect.setAttribute(k, v));
+            const projLab = mk("text", { x: RX - 6, y: BY - 17, "text-anchor": "end", fill: "#5d4037", "font-family": "var(--font-body)", "fill-opacity": .8, class: "fade" }, gAxes);
+            mk("tspan", { x: RX - 6, "font-size": 8.5, "font-weight": 800, "letter-spacing": 1 }, projLab, "VÙNG DỰ PHÓNG");
+            mk("tspan", { x: RX - 6, dy: 10, "font-size": 8, "font-style": "italic" }, projLab, "sau dữ liệu năm 2011");
+
+            // horizontal gridlines, a tick for every power of ten, labels on the right
+            const yTicks = [[-5, "0.00001"], [0, "1"], [5, "100,000"], [10, "10¹⁰"], [15, "10¹⁵"], [18, "10¹⁸"], [21, "10²¹"], [26, "10²⁶"]];
+            for (let e = E0; e <= E1; e++)
+                mk("line", { x1: RX, y1: yOf(e), x2: RX + 3, y2: yOf(e), stroke: "#5d4037", "stroke-width": .6, "stroke-opacity": .5 }, gAxes);
+            yTicks.forEach(([e, lab], i) => {
+                const y = yOf(e);
+                grids.push(mk("line", { x1: LX, y1: y, x2: RX, y2: y, stroke: "#5d4037", "stroke-width": .6, "stroke-opacity": .18, class: "gl h", style: `transition-delay:${i * 60}ms` }, gGrid));
+                mk("line", { x1: RX, y1: y, x2: RX + 6, y2: y, stroke: "#5d4037", "stroke-width": .9 }, gAxes);
+                axls.push(mk("text", { x: RX + 9, y: y + 3.5, "font-size": 10.5, fill: "#5d4037", "font-family": "var(--font-mono)", class: "axl", style: `transition-delay:${250 + i * 60}ms` }, gAxes, lab));
+            });
+            mk("line", { x1: RX, y1: TY, x2: RX, y2: BY, stroke: "#5d4037", "stroke-width": .8, "stroke-opacity": .55 }, gAxes);
+            (function () {   // y-axis title
+                const yMid = (TY + BY) / 2, ax = RX + 74;
+                const t = mk("text", { "text-anchor": "middle", fill: "#5d4037", "font-family": "var(--font-body)", transform: `rotate(-90 ${ax} ${yMid})`, class: "axl", style: "transition-delay:700ms" }, gAxes);
+                mk("tspan", { x: ax, y: yMid, "font-size": 10, "font-weight": 700, "letter-spacing": .8 }, t, "FLOPS / 1.000 USD");
+                mk("tspan", { x: ax, y: yMid + 11, "font-size": 8.5, "font-weight": 600, "font-style": "italic", fill: "#666" }, t, "[Problem solving] · năng lực giải quyết vấn đề");
+                axls.push(t);
+            })();
+
+            // vertical year ticks (2011 = end of measured data)
+            [1900, 1920, 1940, 1960, 1980, 2000, PROJ, 2020, 2045].forEach((yr, i) => {
+                const x = xOf(yr), proj = yr === PROJ;
+                if (!proj) grids.push(mk("line", { x1: x, y1: TY, x2: x, y2: BY, stroke: "#5d4037", "stroke-width": .5, "stroke-opacity": .1, class: "gl v", style: `transition-delay:${i * 50}ms` }, gGrid));
+                mk("line", { x1: x, y1: BY, x2: x, y2: BY + 5, stroke: "#5d4037", "stroke-width": 1 }, gAxes);
+                axls.push(mk("text", {
+                    x, y: BY + 18, "font-size": proj ? 10 : 11, fill: "#5d4037", "fill-opacity": proj ? .7 : 1, "text-anchor": "middle",
+                    "font-family": "var(--font-mono)", "font-style": proj ? "italic" : "normal", class: "axl", style: `transition-delay:${150 + i * 50}ms`
+                }, gAxes, yr));
+            });
+            mk("line", { x1: LX, y1: BY, x2: RX, y2: BY, stroke: "#5d4037", "stroke-width": 1.4 }, gAxes);
+
+            // technology eras: a band that fills in as the head travels; a label that would hit its neighbour drops a row
+            const eraY = BY + 30, eraSegs = [], eraLabs = [];
+            let lastRight = -1e9;
+            mk("line", { x1: xOf(1900), y1: eraY, x2: xOf(2045), y2: eraY, stroke: "#5d4037", "stroke-width": 1, "stroke-opacity": .45 }, gEras);
+            ERAS.forEach(([a, b, lab], i) => {
+                const xa = xOf(a), xb = xOf(b), xm = (xa + xb) / 2;
+                mk("line", { x1: xa, y1: eraY - 4, x2: xa, y2: eraY + 4, stroke: "#5d4037", "stroke-width": 1 }, gEras);
+                if (i === ERAS.length - 1) mk("line", { x1: xb, y1: eraY - 4, x2: xb, y2: eraY + 4, stroke: "#5d4037", "stroke-width": 1 }, gEras);
+                const seg = mk("line", { x1: xa + 1.5, y1: eraY, x2: xb - 1.5, y2: eraY, stroke: i % 2 ? "#8a0303" : "#5d4037", "stroke-width": 3.2, "stroke-opacity": .5 }, gEras);
+                eraSegs.push({ seg, x1: xa + 1.5, x2: xb - 1.5 });
+                const t = mk("text", { x: xm, y: eraY + 15, "font-size": 9, fill: "#5d4037", "text-anchor": "middle", "letter-spacing": .6, "font-weight": 700, class: "era-lab" }, gEras, lab);
+                const w = t.getComputedTextLength(), els = [t];
+                if (xm - w / 2 < lastRight + 8) {
+                    t.setAttribute("y", eraY + 27);
+                    els.push(mk("line", { x1: xm, y1: eraY + 3, x2: xm, y2: eraY + 18, stroke: "#5d4037", "stroke-width": .6, "stroke-opacity": .6, class: "era-lab" }, gEras));
+                } else lastRight = xm + w / 2;
+                eraLabs.push({ a, els });
+            });
+
+            // the curve + its soft area (revealed by a clip that follows the head)
+            const curve = G("curve"), area = G("curveArea");
+            curve.setAttribute("d", CURVE_D);
+            curve.setAttribute("pathLength", TOTAL.toFixed(2));
+            curve.style.strokeDasharray = TOTAL + " " + TOTAL;
+            area.setAttribute("d", `${CURVE_D} L${xOf(Y1).toFixed(1)} ${BY} L${xOf(Y0).toFixed(1)} ${BY} Z`);
+            const clipAreaR = mk("rect", { x: LX - 2, y: 0, width: 0, height: 620 }, mk("clipPath", { id: "clipArea" }, defs));
+            area.setAttribute("clip-path", "url(#clipArea)");
+
+            // comet head + glowing trail, and the singularity tip at 2045
+            const gFx = document.createElementNS(NS, "g");
+            gLabs.after(gFx);
+            const TRAIL = 70;
+            const trail = mk("path", { d: CURVE_D, fill: "none", stroke: "#ffc27a", "stroke-width": 3.6, "stroke-linecap": "round", filter: "url(#trailBlur)", pathLength: TOTAL.toFixed(2), opacity: 0 }, gFx);
+            trail.style.strokeDasharray = TRAIL + " " + (TOTAL + TRAIL);
+            const head = mk("g", { opacity: 0 }, gFx);
+            mk("circle", { r: 13, fill: "url(#headGlow)", class: "head-halo" }, head);
+            mk("circle", { r: 3.6, fill: "#fff4e2", stroke: "#b8331f", "stroke-width": 1.6 }, head);
+            const tipX = xOf(Y1), tipY = yOf(expAt(Y1));
+            const tip = mk("g", { opacity: 0 }, gFx);
+            mk("circle", { cx: tipX, cy: tipY, r: 11, fill: "url(#headGlow)", class: "tip-glow" }, tip);
+            mk("circle", { cx: tipX, cy: tipY, r: 3.4, fill: "#fff4e2", stroke: "#b8331f", "stroke-width": 1.5 }, tip);
+            const bursts = [mk("circle", { cx: tipX, cy: tipY, r: 9, class: "tip-burst" }, gFx),
+            mk("circle", { cx: tipX, cy: tipY, r: 9, class: "tip-burst b2" }, gFx)];
+
+            // ── machines on the curve ──
+            const box = (x, y, w, h) => ({ x, y, w, h });
+            const obst = [], segs = [];
+            svg.querySelectorAll("foreignObject").forEach(fo => obst.push(box(+fo.getAttribute("x") - 3, +fo.getAttribute("y") - 3,
+                +fo.getAttribute("width") + 6, +fo.getAttribute("height") + 6)));
+            DEVICES.forEach(dv => { const r = dv.hero ? 8 : 5; obst.push(Object.assign(box(dv.x - r, dv.cy - r, 2 * r, 2 * r), { own: dv.i })); });
+
+            // hero leaders: dot → nearest edge of its card
+            DEVICES.filter(d => d.hero).forEach(dv => {
+                const fo = svg.querySelector(`.hero-card[data-yr="${dv.y}"]`); if (!fo) return;
+                const fx0 = +fo.getAttribute("x"), fy0 = +fo.getAttribute("y"), fw = +fo.getAttribute("width"), fh = +fo.getAttribute("height");
+                const ax = Math.max(fx0 + 8, Math.min(fx0 + fw - 8, dv.x)), ay = Math.max(fy0, Math.min(fy0 + fh, dv.cy));
+                dv.card = fo;
+                dv.lead = mk("line", { x1: dv.x, y1: dv.cy, x2: ax, y2: ay, stroke: "#5d4037", "stroke-width": .8, "stroke-dasharray": "3 2", "stroke-opacity": .55, class: "dlead" }, gLead);
+                segs.push([dv.x, dv.cy, ax, ay]);
+            });
+
+            // brain-equivalence annotations: leader to the curve + icon
+            const ICONS = {
+                mouse: '<path d="M4 19C4 13.5 9 10 15 10c5.5 0 9.5 3.4 12.5 9z"/><circle cx="19" cy="10.5" r="3.2"/><circle cx="23.6" cy="15.6" r=".9" fill="currentColor" stroke="none"/><path d="M4 19c-2.6 0-3 3.2-.4 3.6 2.4.4 4.6-.6 7.4.4M11 19v2M20 19v2"/>',
+                brain: '<path d="M15.6 4.2c-1.8-1.7-5-1.4-6.3.7-2.6-.2-4.6 2-4.1 4.5C3 10.6 2.6 13.4 4.3 15c-.8 2.3.8 4.7 3.3 4.8.9 1.8 3.2 2.6 5 1.6 1 .9 2.3 1.2 3 .8"/><path d="M16.4 4.2c1.8-1.7 5-1.4 6.3.7 2.6-.2 4.6 2 4.1 4.5 2.1 1.2 2.5 4 .8 5.6.8 2.3-.8 4.7-3.3 4.8-.9 1.8-3.2 2.6-5 1.6-1 .9-2.3 1.2-3 .8"/><path d="M16 4.6v17.6M9 9.2c1.6.3 2.4 1.6 2 3M7.4 15c1.2-.9 2.9-.6 3.6.7M23 9.2c-1.6.3-2.4 1.6-2 3M24.6 15c-1.2-.9-2.9-.6-3.6.7"/>'
+            };
+            const ANN = [
+                { yr: 2015, from: [[778, 185]], icon: "mouse", at: [594, 156], vi: "Đạt mức FLOPS tương đương não chuột (dự phóng)." },
+                { yr: 2023, from: [[813, 154]], icon: "brain", at: [778, 112], vi: "Đạt mức FLOPS tương đương não người (dự phóng)." },
+                { yr: 2045, from: [[897, 12], [1030, 12]], tip: true, vi: "FLOPS tương đương toàn bộ não người cộng lại (dự phóng Kurzweil)." }
+            ];
+            ANN.forEach(a => {
+                const tx = xOf(a.yr), ty = yOf(expAt(a.yr)), pts = a.from.slice();
+                const [px, py] = pts[pts.length - 1], dd = Math.hypot(tx - px, ty - py);
+                pts.push(a.tip ? [tx - (tx - px) / dd * 6, ty - (ty - py) / dd * 6] : [tx, ty]);   // stop at the tip's glow edge
+                a.g = mk("g", { class: "ann-g" }, gLead);
+                mk("polyline", { points: pts.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join(" "), fill: "none", stroke: "#8a0303", "stroke-width": .9, "stroke-opacity": .7, "stroke-linejoin": "round" }, a.g);
+                if (!a.tip) mk("circle", { cx: tx, cy: ty, r: 3, fill: "none", stroke: "#8a0303", "stroke-width": 1.2 }, a.g);
+                if (a.icon) {
+                    const ic = mk("g", { transform: `translate(${a.at[0]} ${a.at[1]})`, fill: "none", stroke: "#8a0303", color: "#8a0303", "stroke-width": 1.2, "stroke-linecap": "round", "stroke-linejoin": "round" }, a.g);
+                    ic.innerHTML = ICONS[a.icon];
+                    obst.push(box(a.at[0], a.at[1], 32, 26));
+                }
+                a.fo = svg.querySelector(`.ann-fo[data-yr="${a.yr}"]`);
+                for (let k = 1; k < pts.length; k++) segs.push([pts[k - 1][0], pts[k - 1][1], pts[k][0], pts[k][1]]);
+            });
+
+            // dots (hero = halo + ring + glowing core); each carries a ripple ring for its entrance
+            DEVICES.forEach(dv => {
+                dv.g = mk("g", { class: "dv" + (dv.hero ? " hero" : "") }, gDots);
+                mk("circle", { cx: dv.x, cy: dv.cy, r: dv.hero ? 18 : 13, class: "dv-ripple" }, dv.g);
+                if (dv.hero) {
+                    mk("circle", { cx: dv.x, cy: dv.cy, r: 7.5, fill: "#8a0303", "fill-opacity": .12, class: "dv-halo" }, dv.g);
+                    mk("circle", { cx: dv.x, cy: dv.cy, r: 5, fill: "#E2D6C0", stroke: "#8a0303", "stroke-width": 1.4, class: "dv-ring" }, dv.g);
+                    mk("circle", { cx: dv.x, cy: dv.cy, r: 2.4, fill: "#8a0303", filter: "url(#dotGlow)", class: "dv-core" }, dv.g);
+                } else {
+                    mk("circle", { cx: dv.x, cy: dv.cy, r: 3.2, fill: "#8a0303", stroke: "#E2D6C0", "stroke-width": 1.3, class: "dv-core" }, dv.g);
+                }
+            });
+
+            // ════ CONCEPTUAL OVERLAYS (models, not FLOPS) ════
+            const gOv = G("expertline");
+            const slope = Math.tan(20 * Math.PI / 180);
+            const cxE = xOf(NOW), ycE = yOf(expAt(NOW));
+            const greenY = x => ycE - (x - cxE) * slope;          // expert line: 20°, crosses the curve at NOW
+            const clipRect = id => mk("rect", { x: 0, y: 0, width: 0, height: 620 }, mk("clipPath", { id }, defs));
+
+            // green · Domain Expert assumption
+            const clipExpR = clipRect("clipExpert");
+            const gExpert = mk("g", { "clip-path": "url(#clipExpert)" }, gOv);
+            const xStart = xOf(1960);
+            mk("line", { x1: xStart, y1: greenY(xStart), x2: RX, y2: greenY(RX), stroke: "#155124", "stroke-width": 1.6, "stroke-dasharray": "7 4", "stroke-opacity": .9 }, gExpert);
+            (function () {
+                const lx = xOf(1961), ly = greenY(lx) - 7, ang = -Math.atan(slope) * 180 / Math.PI;
+                const tl = mk("text", { x: lx, y: ly, "text-anchor": "start", "font-size": 9.5, fill: "#155124", "font-weight": 700, "letter-spacing": .3, "font-family": "var(--font-body)", transform: `rotate(${ang} ${lx} ${ly})` }, gExpert);
+                mk("tspan", {}, tl, "Giả định năng lực: ");
+                mk("tspan", { "font-style": "italic", "font-weight": 600 }, tl, "Chuyên gia ngành (Domain Expert)");
+                const bb = tl.getBBox();
+                gExpert.insertBefore(mk("rect", { x: bb.x - 4, y: bb.y - 2, width: bb.width + 8, height: bb.height + 4, rx: 2, fill: "#155124", "fill-opacity": .12, transform: `rotate(${ang} ${lx} ${ly})` }, gExpert), tl);
+            })();
+
+            // knowledge gap: x-axis → expert line at NOW (grows upward)
+            const gx = xOf(NOW), gTop = ycE;
+            const gapLine = mk("line", { x1: gx, y1: BY, x2: gx, y2: gTop, stroke: "#5d4037", "stroke-width": 1.4, "stroke-dasharray": "1.5 3", "stroke-linecap": "round" }, gOv);
+            const gapFade = mk("g", { class: "fade" }, gOv);
+            const ah = (yy, dir) => mk("path", { d: `M${gx} ${yy} L${gx - 4} ${yy + dir * 7} M${gx} ${yy} L${gx + 4} ${yy + dir * 7}`, stroke: "#5d4037", "stroke-width": 1.4, fill: "none", "stroke-linecap": "round" }, gapFade);
+            ah(gTop, -1); ah(BY, 1);
+            mk("text", { x: gx, y: BY + 18, "font-size": 11, fill: "#8a0303", "text-anchor": "middle", "font-weight": 700, "font-family": "var(--font-mono)" }, gapFade, NOW);
+            const midY = (gTop + BY) / 2;
+            const rt = mk("text", { "text-anchor": "middle", "font-family": "var(--font-body)", fill: "#5d4037", transform: `rotate(-90 ${gx + 9} ${midY})` }, gapFade);
+            mk("tspan", { x: gx + 9, y: midY, "font-size": 9, "font-weight": 700, "letter-spacing": .6 }, rt, "KHOẢNG CÁCH TRI THỨC");
+            mk("tspan", { x: gx + 9, y: midY + 10, "font-size": 8, "font-weight": 600, "font-style": "italic" }, rt, "Knowledge Gap");
+            const t2 = mk("text", { x: gx - 30, y: BY - 13, "font-size": 8.6, fill: "#5d4037", "text-anchor": "end", "font-family": "var(--font-body)" }, gapFade);
+            mk("tspan", { x: gx - 30, "font-weight": 700 }, t2, "[tiếp cận thông tin]");
+            mk("tspan", { x: gx - 30, dy: 9.5, fill: "#666" }, t2, "con người tiếp cận thông tin");
+
+            // blue · Cognitive Bypass: slow rise, phase jump 2022–23, then parallel to the computer curve
+            const gBlue = document.createElementNS(NS, "g");
+            gFx.before(gBlue);
+            const xS = xOf(1960), xJ1 = xOf(2021);
+            const yStart = yOf(-4.0), yPre = yOf(-1.6), yPost = yOf(expAt(2024) - 2.4);
+            let dPar = "";
+            for (let yr = 2024; yr <= 2045; yr += 0.5) dPar += ` L${xOf(yr).toFixed(1)} ${yOf(expAt(yr) - 2.4).toFixed(1)}`;
+            const bluePath = mk("path", {
+                d: `M${xS} ${yStart}` +
+                    ` C${xOf(1990)} ${yStart - 5}, ${xOf(2008)} ${yPre + 10}, ${xJ1} ${yPre}` +
+                    ` C${xOf(2022.3)} ${yPre - 4}, ${xOf(2022.8)} ${(yPre + yPost) / 2}, ${xOf(2023.2)} ${yPost + 34}` +
+                    ` C${xOf(2023.6)} ${yPost + 14}, ${xOf(2023.9)} ${yPost + 2}, ${xOf(2024)} ${yPost}` + dPar,
+                fill: "none", stroke: "#1f5c8a", "stroke-width": 2.2, "stroke-linejoin": "round", "stroke-linecap": "round", pathLength: 1000
+            }, gBlue);
+            bluePath.style.strokeDasharray = "1000 1000";
+            const blueHead = mk("circle", { r: 3.4, fill: "#eef4fa", stroke: "#1f5c8a", "stroke-width": 1.5, opacity: 0 }, gBlue);
+            const gBlueLbl = mk("g", { class: "fade" }, gBlue);
+            const jmY = (yPre + yPost) / 2;
+            mk("text", { x: xJ1 - 4, y: jmY, "font-size": 8, fill: "#1f5c8a", "text-anchor": "middle", "font-weight": 700, "font-style": "italic", "font-family": "var(--font-body)", transform: `rotate(-90 ${xJ1 - 4} ${jmY})` }, gBlueLbl, "Bước nhảy pha 2022–23 ↑ (giả định)");
+            const lblX = xOf(NOW) + 7.5, lblY = yOf(1.0);   // just right of the knowledge-gap line
+            (function () {
+                const ty = lblY - 3.5, len = bluePath.getTotalLength();
+                for (let d = 0; d <= len; d += 1) {
+                    const q = bluePath.getPointAtLength(d);
+                    if (q.x > xJ1 - 2 && q.y <= ty) {   // first point of the jump at the label's first line
+                        mk("line", { x1: lblX - 5, y1: ty, x2: q.x + 3, y2: ty, stroke: "#1f5c8a", "stroke-width": .8, "stroke-opacity": .75 }, gBlueLbl);
+                        mk("circle", { cx: q.x, cy: ty, r: 2.6, fill: "none", stroke: "#1f5c8a", "stroke-width": 1.1 }, gBlueLbl);
+                        break;
+                    }
+                }
+            })();
+            const yl = mk("text", { x: lblX, y: lblY, "font-size": 9, fill: "#1f5c8a", "text-anchor": "start", "font-family": "var(--font-body)" }, gBlueLbl);
+            mk("tspan", { x: lblX, "font-size": 8.6, "font-weight": 800, "letter-spacing": .2 }, yl, "ĐƯỜNG TẮT NHẬN THỨC");
+            mk("tspan", { x: lblX, dy: 10, "font-weight": 600, "font-style": "italic" }, yl, "Cognitive Bypass Curve");
+            mk("tspan", { x: lblX, dy: 11, "font-size": 8.2, fill: "#666" }, yl, "Người dùng phổ thông");
+            mk("tspan", { x: lblX, dy: 9.5, "font-size": 8.2, fill: "#666" }, yl, "tích hợp AI");
+            mk("tspan", { x: lblX, dy: 9.5, "font-size": 8.2, fill: "#666" }, yl, "(AI-Augmented Non-Expert)");
+
+            // scenario: optimistic path converging onto the expert line
+            const clipScR = clipRect("clipScen");
+            const gScen = mk("g", { "clip-path": "url(#clipScen)" }, gBlue);
+            mk("path", {
+                d: `M${xOf(2024)} ${yPost} C${xOf(2028)} ${greenY(xOf(2028)) + 6}, ${xOf(2032)} ${greenY(xOf(2032)) + 2}, ${xOf(2036)} ${greenY(xOf(2036))} L${RX} ${greenY(RX)}`,
+                fill: "none", stroke: "#1f5c8a", "stroke-width": 1.3, "stroke-dasharray": "2 3", "stroke-opacity": .85, "stroke-linecap": "round"
+            }, gScen);
+            const sc = mk("text", { x: RX - 6, y: greenY(RX - 6) + 52, "font-size": 7.8, fill: "#1f5c8a", "font-style": "italic", "text-anchor": "end", "font-family": "var(--font-body)" }, gScen);
+            mk("tspan", { x: RX - 6 }, sc, "Kịch bản: hội tụ");
+            mk("tspan", { x: RX - 6, dy: 9 }, sc, "về Domain Expert");
+
+            // ── machine labels: scored placement, run after the overlays so labels and leaders avoid them too ──
+            const hitsSeg = (b, s) => {
+                const n = Math.max(2, Math.ceil(Math.hypot(s[2] - s[0], s[3] - s[1]) / 3));
+                for (let k = 0; k <= n; k++) {
+                    const px = s[0] + (s[2] - s[0]) * k / n, py = s[1] + (s[3] - s[1]) * k / n;
+                    if (px > b.x - 1 && px < b.x + b.w + 1 && py > b.y - 1 && py < b.y + b.h + 1) return true;
+                }
+                return false;
+            };
+            const segCross = (p, q) => {   // proper intersection of two segments [x1, y1, x2, y2]
+                const d = (p[2] - p[0]) * (q[3] - q[1]) - (p[3] - p[1]) * (q[2] - q[0]);
+                if (Math.abs(d) < 1e-9) return false;
+                const t = ((q[0] - p[0]) * (q[3] - q[1]) - (q[1] - p[1]) * (q[2] - q[0])) / d;
+                const u = ((q[0] - p[0]) * (p[3] - p[1]) - (q[1] - p[1]) * (p[2] - p[0])) / d;
+                return t > .02 && t < .98 && u > .02 && u < .98;
+            };
+            [gOv, gBlue].forEach(g => g.querySelectorAll("text").forEach(t => {
+                const b = t.getBBox(), tr = t.transform.baseVal.consolidate(), M = tr && tr.matrix;
+                const c = [[b.x - 2, b.y - 1], [b.x + b.width + 2, b.y - 1], [b.x + b.width + 2, b.y + b.height + 1], [b.x - 2, b.y + b.height + 1]]
+                    .map(([x, y]) => M ? [M.a * x + M.c * y + M.e, M.b * x + M.d * y + M.f] : [x, y]);
+                if (!M || Math.abs(M.b) < 1e-6 || Math.abs(M.a) < 1e-6) {   // horizontal / vertical text: its box is tight
+                    const xs = c.map(q => q[0]), ys = c.map(q => q[1]);
+                    obst.push(box(Math.min(...xs), Math.min(...ys), Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)));
+                } else for (let k = 0; k < 4; k++) segs.push([...c[k], ...c[(k + 1) % 4]]);   // slanted: block its outline
+            }));
+            segs.push([xStart, greenY(xStart), RX, greenY(RX)], [gx, gTop, gx, BY]);
+            const blueSamp = [];
+            for (let d = 0, bl = bluePath.getTotalLength(); d <= bl; d += 3) blueSamp.push(bluePath.getPointAtLength(d));
+            const overlap = (b, o) => Math.max(0, Math.min(b.x + b.w, o.x + o.w) - Math.max(b.x, o.x)) * Math.max(0, Math.min(b.y + b.h, o.y + o.h) - Math.max(b.y, o.y));
+            const LH = 9.4;
+            const boxDist = (b, px, py) => Math.hypot(Math.max(b.x - px, 0, px - b.x - b.w), Math.max(b.y - py, 0, py - b.y - b.h));
+            const labelled = DEVICES.filter(d => !d.hero);
+            labelled.forEach(dv => {
+                const lines = dv.n.split("\n");
+                dv.lab = mk("text", { "font-size": 8.3, fill: "#2b2b2b", "font-family": "var(--font-body)", class: "dlab" }, gLabs);
+                lines.forEach((ln, i) => mk("tspan", { x: 0, dy: i ? LH : 0 }, dv.lab, ln));
+                dv.w = dv.lab.getBBox().width + 2; dv.h = lines.length * LH + 1;
+            });
+            function spotCost(dv, b) {   // 0 penalty = clean spot; leader length (and a nudge for the preferred side) break ties
+                let c = 0;
+                if (b.x < LX + 2 || b.x + b.w > RX - 2 || b.y < TY || b.y + b.h > BY - 3) c += 1e5;
+                for (const o of obst) c += 40 * overlap(b, o);
+                for (const q of SAMP) {
+                    if (q.x < b.x - 2.5) continue;
+                    if (q.x > b.x + b.w + 2.5) break;
+                    if (q.y > b.y - 2.5 && q.y < b.y + b.h + 2.5) c += 60;
+                }
+                for (const q of blueSamp) if (q.x > b.x - 2 && q.x < b.x + b.w + 2 && q.y > b.y - 2 && q.y < b.y + b.h + 2) c += 60;
+                for (const sg of segs) if (hitsSeg(b, sg)) c += 400;
+                const others = labelled.filter(o => o !== dv && o.spot);
+                for (const o of others) {
+                    c += 40 * overlap(b, o.spot.box);
+                    if (o.spot.seg && hitsSeg(b, o.spot.seg)) c += 400;
+                }
+                const x = dv.x, y = dv.cy, nx = Math.max(b.x, Math.min(b.x + b.w, x)), ny = Math.max(b.y, Math.min(b.y + b.h, y));
+                const len = Math.hypot(nx - x, ny - y);
+                if (len > 7.5) {   // the leader must not cross another leader or run through a label, card or dot
+                    const ux = (nx - x) / len, uy = (ny - y) / len, L = [x + ux * 5, y + uy * 5, nx - ux * 1.5, ny - uy * 1.5];
+                    for (const sg of segs) if (segCross(L, sg)) c += 400;
+                    for (const o of obst) if (o.own !== dv.i && hitsSeg(o, L)) c += 300;
+                    for (const o of others) {
+                        if (o.spot.seg && segCross(L, o.spot.seg)) c += 400;
+                        if (hitsSeg(o.spot.box, L)) c += 300;
+                    }
+                }
+                // a label must read as belonging to its own dot, not a neighbour's
+                const dOwn = boxDist(b, x, y);
+                for (const o of DEVICES) if (o !== dv) { const d = boxDist(b, o.x, o.cy); if (d < dOwn - 1.5) c += 8 * (dOwn - 1.5 - d); }
+                return c + 1.5 * len;
+            }
+            function bestSpot(dv) {
+                const x = dv.x, y = dv.cy, r = 4.5, w = dv.w, h = dv.h, pref = dv.lp || "u";
+                let best = null;
+                const consider = (side, bx, by) => {
+                    const bb = box(bx, by, w, h), v = spotCost(dv, bb) + (side === pref ? 0 : 12);
+                    if (!best || v < best.v) best = { side, b: bb, v };
+                };
+                for (const dy of [6, 15, 25, 35, 46, 58, 71, 85]) for (const dx of [0, -7, 7, -14, 14, -21, 21]) consider("u", x + dx - w / 2, y - r - dy - h);
+                for (const dy of [4, 12]) for (const dx of [0, -7, 7, -14, 14]) consider("d", x + dx - w / 2, y + r + dy);
+                for (const dx of [5, 13, 22, 32]) for (const dy of [0, 8, -8, 16, -16, 24, -24]) consider("r", x + r + dx, y - h / 2 + dy);
+                for (const dx of [5, 13, 22, 32]) for (const dy of [0, -8, 8, -16, 16, -24, 24]) consider("l", x - r - dx - w, y - h / 2 + dy);
+                const bb = best.b, nx = Math.max(bb.x, Math.min(bb.x + bb.w, x)), ny = Math.max(bb.y, Math.min(bb.y + bb.h, y));
+                best.seg = Math.hypot(nx - x, ny - y) > 7.5 ? [x, y, nx, ny] : null;
+                best.box = box(bb.x - 1.5, bb.y - 1.5, bb.w + 3, bb.h + 3);
+                return best;
+            }
+            // greedy pass, then two passes where every label is re-placed knowing where all the others sit
+            for (let round = 0; round < 3; round++) labelled.forEach(dv => { dv.spot = null; dv.spot = bestSpot(dv); });
+            labelled.forEach(dv => {
+                const { side, b } = dv.spot, x = dv.x, y = dv.cy;
+                const tx = side === "r" ? b.x + 1 : side === "l" ? b.x + b.w - 1 : b.x + b.w / 2;
+                dv.lab.setAttribute("text-anchor", side === "r" ? "start" : side === "l" ? "end" : "middle");
+                dv.lab.setAttribute("x", tx); dv.lab.setAttribute("y", b.y + 7);
+                dv.lab.querySelectorAll("tspan").forEach(ts => ts.setAttribute("x", tx));
+                if (dv.spot.seg) {
+                    const [, , nx, ny] = dv.spot.seg, dist = Math.hypot(nx - x, ny - y), ux = (nx - x) / dist, uy = (ny - y) / dist;
+                    dv.lead = mk("line", { x1: x + ux * 3.5, y1: y + uy * 3.5, x2: nx - ux * 1.5, y2: ny - uy * 1.5, stroke: "#5d4037", "stroke-width": .65, "stroke-opacity": .7, class: "dlead" }, gLead);
+                }
+            });
+
+            const lgItems = [...document.querySelectorAll(".legend .lg")];   // [computer, expert, bypass]
+            const legend = document.querySelector(".legend");
+
+            // ════ ANIMATION ENGINE ════
+            const ease = {
+                outCubic: t => 1 - Math.pow(1 - t, 3),
+                inOutSine: t => -(Math.cos(Math.PI * t) - 1) / 2,
+                inOutCubic: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+            };
+            const DRAW_MS = 6500;   // 1895 → 2045
+            const tweens = new Set();
+            let raf = 0, gen = 0, busy = false, played = false;
+            function frame(now) {
+                raf = 0;
+                tweens.forEach(tw => {
+                    if (tw.t0 == null) tw.t0 = now;
+                    const p = Math.min(1, (now - tw.t0) / tw.dur);
+                    tw.fn(tw.ez(p));
+                    if (p >= 1) { tweens.delete(tw); tw.done(); }
+                });
+                if (tweens.size) raf = requestAnimationFrame(frame);
+            }
+            function tween(dur, fn, ez = ease.outCubic, owner = "chart") {
+                return new Promise(done => {
+                    tweens.add({ dur, fn, ez, done, owner, t0: null });
+                    if (!raf) raf = requestAnimationFrame(frame);
+                });
+            }
+            const wait = ms => new Promise(r => setTimeout(r, ms));
+            function stopChart() { gen++; tweens.forEach(tw => { if (tw.owner === "chart") tweens.delete(tw); }); }
+
+            const showT = el => el && el.classList.add("on");                         // CSS-transition elements
+            const showA = (el, inst) => el && el.classList.add(inst ? "done" : "on");  // CSS-animation elements
+            const blocks = [...svg.querySelectorAll(".fo-blk")];
+            const allFO = [...blocks, ...DEVICES.filter(d => d.card).map(d => d.card), ...ANN.map(a => a.fo).filter(Boolean)];
+            allFO.forEach(fo => { fo.dataset.y0 = fo.getAttribute("y"); });
+            // foreignObjects are tweened in JS (opacity + y attribute) — CSS transforms on them misplace content in Safari
+            function foSet(fo, p) { fo.style.opacity = p; fo.setAttribute("y", (+fo.dataset.y0 + (1 - p) * 10).toFixed(2)); }
+            function foIn(fo, inst, dur = 600) { if (!fo) return; if (inst) foSet(fo, 1); else tween(dur, p => foSet(fo, p)); }
+            futureRect.classList.add("fade");
+            futureRect.style.transition = "opacity 1s ease";
+
+            // everything that appears when the head passes a year
+            function revealDevice(dv, inst) {
+                showA(dv.g, inst); showA(dv.lab, inst); showA(dv.lead, inst);
+                if (dv.card) foIn(dv.card, inst, 700);
+            }
+            const EVENTS = [];
+            DEVICES.forEach(dv => EVENTS.push({ yr: dv.y, run: inst => revealDevice(dv, inst) }));
+            eraLabs.forEach(e => EVENTS.push({ yr: Math.max(e.a, 1900), run: () => e.els.forEach(showT) }));
+            EVENTS.push({ yr: PROJ, run: inst => { showT(futureRect); showT(projLab); blocks.filter(b => b.dataset.at === String(PROJ)).forEach(b => foIn(b, inst)); } });
+            ANN.forEach(a => EVENTS.push({ yr: a.yr, run: inst => { showA(a.g, inst); foIn(a.fo, inst); } }));
+            EVENTS.sort((a, b) => a.yr - b.yr);
+            let evIdx = 0;
+            function fireUpTo(yr, inst) { while (evIdx < EVENTS.length && EVENTS[evIdx].yr <= yr + 1e-6) EVENTS[evIdx++].run(inst); }
+
+            // ── crosshair: playhead during the intro, hover/keyboard readout afterwards ──
+            const gX = mk("g", { class: "xh", opacity: 0 }, svg);
+            const xhV = mk("line", { y2: BY, stroke: "#5d4037", "stroke-width": .8, "stroke-opacity": .55 }, gX);
+            const xhH = mk("line", { x2: RX, stroke: "#5d4037", "stroke-width": .7, "stroke-opacity": .35, "stroke-dasharray": "2 3" }, gX);
+            const xhDot = mk("circle", { r: 4.6, fill: "#fff4e2", stroke: "#8a0303", "stroke-width": 1.6 }, gX);
+            const bYr = mk("g", { class: "xh-badge" }, gX), bYrR = mk("rect", { rx: 2, height: 15, y: BY + 6 }, bYr), bYrT = mk("text", { "text-anchor": "middle", y: BY + 17 }, bYr);
+            const bVal = mk("g", { class: "xh-badge" }, gX), bValR = mk("rect", { rx: 2, height: 15, x: RX + 4 }, bVal), bValT = mk("text", { x: RX + 9 }, bVal);
+            function xhSet(yr, x, y, dotOn) {
+                xhV.setAttribute("x1", x); xhV.setAttribute("x2", x); xhV.setAttribute("y1", y);
+                xhH.setAttribute("x1", x); xhH.setAttribute("y1", y); xhH.setAttribute("y2", y);
+                xhDot.setAttribute("cx", x); xhDot.setAttribute("cy", y); xhDot.style.display = dotOn ? "" : "none";
+                bYrT.textContent = Math.round(yr);
+                const wy = bYrT.getComputedTextLength() + 10;
+                bYrR.setAttribute("x", x - wy / 2); bYrR.setAttribute("width", wy); bYrT.setAttribute("x", x);
+                bValT.textContent = fmtVal(expAt(yr));
+                bValR.setAttribute("y", y - 7.5); bValR.setAttribute("width", bValT.getComputedTextLength() + 10);
+                bValT.setAttribute("y", y + 3.5);
+            }
+
+            function eraFill(x) { eraSegs.forEach(s => s.seg.setAttribute("x2", Math.max(s.x1, Math.min(s.x2, x)).toFixed(1))); }
+            function drawTo(L) {
+                const p = atLen(L);
+                curve.style.strokeDashoffset = TOTAL - L;
+                trail.style.strokeDashoffset = TRAIL - L;
+                head.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+                clipAreaR.setAttribute("width", Math.max(0, p.x - LX + 2).toFixed(1));
+                eraFill(p.x);
+                xhSet(p.yr, p.x, p.y, false);
+                fireUpTo(p.yr, false);
+            }
+
+            const BLUE_LEN = bluePath.getTotalLength();
+            function settle() {   // apply class changes without transitions, then re-enable them
+                void svg.getBoundingClientRect();
+                stage.classList.remove("no-tr");
+                if (legend) legend.classList.remove("no-tr");
+            }
+            function reset() {
+                stopChart(); busy = false; evIdx = 0;
+                stage.classList.remove("idle", "focus-lines");
+                stage.classList.add("chart-anim", "no-tr");
+                if (legend) legend.classList.add("lg-anim", "no-tr");
+                svg.querySelectorAll(".on,.done").forEach(el => el.classList.remove("on", "done"));
+                lgItems.forEach(el => el.classList.remove("on"));
+                allFO.forEach(fo => foSet(fo, 0));
+                curve.style.strokeDashoffset = TOTAL;
+                [trail, head, tip, blueHead, gX].forEach(el => el.setAttribute("opacity", 0));
+                clipAreaR.setAttribute("width", 0); eraFill(-1e9);
+                clipExpR.setAttribute("width", 0); clipScR.setAttribute("width", 0);
+                gapLine.setAttribute("y2", BY);
+                bluePath.style.strokeDashoffset = 1000;
+                hideTip();
+                settle();
+            }
+            function finalState() {
+                stopChart(); busy = false; played = true;
+                stage.classList.add("chart-anim", "no-tr", "idle");
+                if (legend) legend.classList.add("no-tr");
+                svg.querySelectorAll(".dv.on,.dlab.on,.dlead.on,.ann-g.on").forEach(el => el.classList.remove("on"));
+                grids.forEach(showT); axls.forEach(showT); blocks.forEach(b => foIn(b, true));
+                evIdx = 0; fireUpTo(9999, true);
+                curve.style.strokeDashoffset = 0;
+                [trail, head, blueHead, gX].forEach(el => el.setAttribute("opacity", 0));
+                tip.setAttribute("opacity", 1);
+                clipAreaR.setAttribute("width", 1200); eraFill(1e9);
+                clipExpR.setAttribute("width", 1200); clipScR.setAttribute("width", 1200);
+                gapLine.setAttribute("y2", gTop); showT(gapFade); showT(gBlueLbl);
+                bluePath.style.strokeDashoffset = 0;
+                lgItems.forEach(el => el.classList.add("on"));
+                settle();
+            }
+            async function play() {
+                reset();
+                const my = gen; busy = true; played = true;
+                // 1 · the frame: gridlines sweep in, axes and opening text fade up
+                grids.forEach(showT); axls.forEach(showT);
+                if (lgItems[0]) lgItems[0].classList.add("on");
+                blocks.filter(b => b.dataset.at === "0").forEach((b, i) => setTimeout(() => { if (my === gen) foIn(b); }, 150 + i * 280));
+                await wait(750); if (my !== gen) return;
+                // 2 · the climb: head + trail + playhead; machines, eras, annotations fire as their year passes
+                [trail, head, gX].forEach(el => el.setAttribute("opacity", 1));
+                await tween(DRAW_MS, p => drawTo(p * TOTAL), ease.inOutSine); if (my !== gen) return;
+                // 3 · arrival at 2045
+                fireUpTo(9999, false);
+                [trail, head, gX].forEach(el => el.setAttribute("opacity", 0));
+                tip.setAttribute("opacity", 1);
+                bursts.forEach(b => b.classList.add("on"));
+                await wait(800); if (my !== gen) return;
+                // 4 · conceptual overlays: expert line → knowledge gap → cognitive bypass → scenario
+                if (lgItems[1]) lgItems[1].classList.add("on");
+                await tween(1100, p => clipExpR.setAttribute("width", xStart - 6 + p * (RX - xStart + 12)), ease.inOutCubic); if (my !== gen) return;
+                await tween(650, p => gapLine.setAttribute("y2", BY + (gTop - BY) * p)); if (my !== gen) return;
+                showT(gapFade);
+                if (lgItems[2]) lgItems[2].classList.add("on");
+                blueHead.setAttribute("opacity", 1);
+                await tween(1900, p => {
+                    bluePath.style.strokeDashoffset = 1000 * (1 - p);
+                    const pt = bluePath.getPointAtLength(p * BLUE_LEN);
+                    blueHead.setAttribute("cx", pt.x); blueHead.setAttribute("cy", pt.y);
+                }, ease.inOutSine); if (my !== gen) return;
+                blueHead.setAttribute("opacity", 0);
+                showT(gBlueLbl);
+                await tween(800, p => clipScR.setAttribute("width", xOf(2024) - 4 + p * (RX - xOf(2024) + 10))); if (my !== gen) return;
+                busy = false;
+                stage.classList.add("idle");
+            }
+
+            // ════ HOVER / KEYBOARD READOUT ════
+            const tt = G("tt");
+            const ttEls = (function () {
+                const el = (tag, cls, parent, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; parent.appendChild(e); return e; };
+                const h = el("div", "tt-h", tt), name = el("span", "", h), yr = el("span", "yr", h);
+                const v = el("div", "tt-v", tt); el("span", "k", v); const val = el("b", "", v);
+                el("div", "tt-u", tt, "phép tính mỗi giây · trên mỗi 1.000 USD");
+                return { name, yr, val, era: el("div", "tt-e", tt), note: el("div", "tt-n", tt), proj: el("div", "tt-p", tt) };
+            })();
+            // hover focus: everything except the data lines fades to 50% — the machine / milestone being read stays solid
+            [futureRect, gGrid, gEras, gAxes, area, ...gLead.children, ...gDots.children, ...gLabs.children,
+                blueHead, gBlueLbl,      // Domain Expert line + label and the 2026 knowledge gap stay solid
+                ...[...gScen.children].filter(el => el.tagName !== "path"),        // scenario line stays, its label fades
+                ...svg.querySelectorAll("foreignObject")
+            ].forEach(el => el.classList.add("dimmable"));
+            let hlDev = null, hlAnn = null;
+            const hlEls = d => [d.g, d.lab, d.lead, d.card].filter(Boolean);
+            function highlight(dv) {
+                if (hlDev === dv) return;
+                if (hlDev) hlEls(hlDev).forEach(el => el.classList.remove("hl"));
+                hlDev = dv;
+                if (dv) hlEls(dv).forEach(el => el.classList.add("hl"));
+            }
+            function highlightAnn(a) {
+                if (hlAnn === a) return;
+                if (hlAnn) [hlAnn.g, hlAnn.fo].forEach(el => el && el.classList.remove("hl"));
+                hlAnn = a;
+                if (a) [a.g, a.fo].forEach(el => el && el.classList.add("hl"));
+            }
+            function hideTip() {
+                tt.classList.remove("on");
+                stage.classList.remove("focus-lines");
+                if (!busy) gX.setAttribute("opacity", 0);
+                highlight(null); highlightAnn(null);
+            }
+            function showAt(yr, dv) {
+                const x = xOf(yr), E = expAt(yr), y = yOf(E);
+                xhSet(yr, x, y, true); gX.setAttribute("opacity", 1);
+                highlight(dv);
+                const ann = ANN.find(a => Math.abs(a.yr - yr) < 1.6);
+                highlightAnn(dv ? null : ann || null);
+                ttEls.name.textContent = dv ? dv.label : ann ? "Mốc dự phóng" : "Đường xu hướng";
+                ttEls.yr.textContent = Math.round(yr);
+                ttEls.val.textContent = "≈ " + fmtVal(E);
+                ttEls.era.textContent = "Thời kỳ: " + eraOf(yr)[3];
+                ttEls.note.textContent = dv ? dv.vi : ann ? ann.vi : "";
+                ttEls.proj.textContent = yr > PROJ ? "Dự phóng (Kurzweil, Time 2011) — không phải số đo" : "";
+                // place beside the point, flipping to stay inside the stage
+                const ctm = svg.getScreenCTM(), sr = stage.getBoundingClientRect();
+                const px = ctm.a * x + ctm.e - sr.left + stage.scrollLeft, py = ctm.d * y + ctm.f - sr.top;
+                tt.classList.add("on");
+                const tw = tt.offsetWidth, th = tt.offsetHeight;
+                let left = px + 16; if (left + tw > stage.scrollLeft + stage.clientWidth - 4) left = px - 16 - tw;
+                let top = py - th - 12; if (top < 0) top = py + 16;
+                tt.style.transform = `translate(${Math.round(Math.max(stage.scrollLeft + 4, left))}px, ${Math.round(top)}px)`;
+            }
+            const hit = mk("rect", { x: 0, y: 0, width: 1180, height: 620, class: "hit" }, svg);
+            function nearest(yr) {
+                let best = null, bd = 1.6;
+                DEVICES.forEach(dv => { const d = Math.abs(dv.y - yr); if (d < bd) { bd = d; best = dv; } });
+                return best;
+            }
+            function pointAt(evt) {
+                if (busy) return;
+                const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
+                const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+                const raw = Math.max(1900, Math.min(Y1, yrOfX(p.x))), dv = nearest(raw);
+                showAt(dv ? dv.y : Math.round(raw), dv);
+            }
+            // mouse: follow the pointer · touch/pen: tap to inspect (drags stay free to scroll the chart)
+            hit.addEventListener("pointermove", evt => { if (evt.pointerType === "mouse") pointAt(evt); });
+            hit.addEventListener("pointerdown", evt => { if (evt.pointerType !== "mouse") pointAt(evt); });
+            hit.addEventListener("pointerleave", evt => { if (evt.pointerType === "mouse") hideTip(); });
+            document.addEventListener("pointerdown", evt => { if (evt.target !== hit && tt.classList.contains("on")) hideTip(); });
+            stage.addEventListener("click", () => { if (busy) finalState(); });   // click = skip the intro
+
+            svg.setAttribute("tabindex", "0");
+            svg.setAttribute("role", "group");
+            svg.setAttribute("aria-label", "Biểu đồ sức mạnh tính toán 1900–2045. Phím mũi tên trái/phải để duyệt từng cỗ máy.");
+            let kIdx = -1;
+            svg.addEventListener("keydown", evt => {
+                const k = evt.key;
+                if (!["ArrowRight", "ArrowLeft", "Home", "End", "Escape"].includes(k)) return;
+                evt.preventDefault();
+                if (busy) finalState();
+                if (k === "Escape") { hideTip(); return; }
+                kIdx = k === "Home" ? 0 : k === "End" ? DEVICES.length - 1 :
+                    Math.max(0, Math.min(DEVICES.length - 1, kIdx + (k === "ArrowRight" ? 1 : -1)));
+                showAt(DEVICES[kIdx].y, DEVICES[kIdx]);
+            });
+            svg.addEventListener("blur", hideTip);
+
+            // ════ TABLE VIEW (same data, no hovering needed) ════
+            const tbody = document.querySelector("#dtable tbody");
+            if (tbody) {
+                const row = (cells, cls) => {
+                    const tr = document.createElement("tr"); if (cls) tr.className = cls;
+                    cells.forEach(([txt, c]) => { const td = document.createElement("td"); if (c) td.className = c; td.textContent = txt; tr.appendChild(td); });
+                    tbody.appendChild(tr);
+                };
+                DEVICES.forEach(dv => row([[dv.y, "y"], [dv.label], ["≈ " + fmtVal(dv.E), "v"], [eraOf(dv.y)[3]], [dv.vi]]));
+                const annName = { 2015: "Ngưỡng não chuột", 2023: "Ngưỡng não người", 2045: "Toàn bộ não người cộng lại" };
+                ANN.forEach(a => row([[a.yr, "y"], [annName[a.yr]], ["≈ " + fmtVal(expAt(a.yr)), "v"], ["Dự phóng"], [a.vi]], "proj"));
+            }
+
+            // ════ SECTION 1 · accelerating timeline — hops that shrink as the pace accelerates ════
+            const tlSvg = G("tlsvg");
+            const TL = [
+                { n: "Cách mạng\nNông nghiệp", y: "thời tiền sử" },
+                { n: "Cách mạng\nCông nghiệp", y: "~1760" },
+                { n: "Bóng đèn\nđiện", y: "1879" },
+                { n: "Đặt chân\nlên Mặt Trăng", y: "1969" },
+                { n: "World\nWide Web", y: "1991" },
+                { n: "Giải mã\nbộ gen người", y: "2000" }
+            ];
+            const HOPS = [8000, 120, 90, 22, 9];   // years between consecutive milestones (Time, 2011)
+            const tl = tlSvg ? (function () {
+                const BASE = 90, X0 = 72, X1 = 1108;
+                const wts = HOPS.map(v => .75 + Math.log10(v)), sum = wts.reduce((m, v) => m + v, 0);
+                const xs = [X0];
+                wts.forEach(w => xs.push(xs[xs.length - 1] + (X1 - X0) * w / sum));   // spacing shrinks hop by hop
+                const base = mk("line", { x1: X0 - 36, y1: BASE, x2: X1 + 50, y2: BASE, stroke: "#5d4037", "stroke-width": 1, "stroke-opacity": .35, pathLength: 1 }, tlSvg);
+                const baseAh = mk("path", { d: `M${X1 + 43} ${BASE - 4} L${X1 + 50} ${BASE} L${X1 + 43} ${BASE + 4}`, fill: "none", stroke: "#5d4037", "stroke-opacity": .45, "stroke-width": 1.2, "stroke-linecap": "round", "stroke-linejoin": "round", class: "tl-ah" }, tlSvg);
+                const hops = HOPS.map((yrs, i) => {
+                    const a = xs[i] + 9, b = xs[i + 1] - 9, y0 = BASE - 3;
+                    const lg = Math.log10(yrs), h = 14 + 13 * lg, H = h / .75, dx = (b - a) * .12;   // apex height ∝ log(years)
+                    const arc = mk("path", { d: `M${a} ${y0} C${a + dx} ${y0 - H}, ${b - dx} ${y0 - H}, ${b} ${y0}`, fill: "none", stroke: "#8a0303", "stroke-width": 1.5, "stroke-opacity": .6, display: "none" }, tlSvg);
+                    // landing arrowhead, aligned with the arc's end tangent
+                    const L = Math.hypot(dx, H), ux = -dx / L, uy = -H / L, c = Math.cos(.5), sn = Math.sin(.5);
+                    const w1 = [ux * c - uy * sn, ux * sn + uy * c], w2 = [ux * c + uy * sn, -ux * sn + uy * c];
+                    const ah = mk("path", { d: `M${b + w1[0] * 6.5} ${y0 + w1[1] * 6.5} L${b} ${y0} L${b + w2[0] * 6.5} ${y0 + w2[1] * 6.5}`, fill: "none", stroke: "#8a0303", "stroke-opacity": .75, "stroke-width": 1.4, "stroke-linecap": "round", "stroke-linejoin": "round", class: "tl-ah", display: "none" }, tlSvg);
+                    const mx = (a + b) / 2, my = BASE,   // duration sits on the axis, between milestones
+                        _h = h, label = yrs.toLocaleString("vi-VN") + " năm";
+                    const pill = mk("g", { class: "tl-pill" }, tlSvg);
+                    const rect = mk("rect", { y: my - 10.5, height: 21, rx: 10.5, fill: "#E2D6C0" }, pill);   // background masks the axis behind the label
+                    const pt = mk("text", { x: mx, y: my + 4, "text-anchor": "middle", "font-size": 11.5, "font-weight": 700, fill: "#8a0303", "font-family": "var(--font-body)" }, pill, label);
+                    const tw = pt.getComputedTextLength() + 22;
+                    rect.setAttribute("x", mx - tw / 2); rect.setAttribute("width", tw);
+                    return { arc, ah, pill, pt, label, yrs, d: Math.round(320 + 230 * lg) };
+                });
+                const ms = TL.map((m, i) => {
+                    const g = mk("g", { class: "tl-m" }, tlSvg);
+                    mk("circle", { cx: xs[i], cy: BASE, r: 6, fill: "#8a0303", stroke: "#E2D6C0", "stroke-width": 3, class: "tl-dot" }, g);
+                    const t = mk("text", { x: xs[i], y: BASE + 25, "text-anchor": "middle", "font-size": 12, "font-weight": 700, fill: "#2b2b2b", "font-family": "var(--font-body)", class: "tl-lab" }, g);
+                    m.n.split("\n").forEach((ln, k) => mk("tspan", { x: xs[i], dy: k ? 14.5 : 0 }, t, ln));
+                    mk("text", { x: xs[i], y: BASE + 56, "text-anchor": "middle", "font-size": 10.5, fill: "#5d4037", "fill-opacity": .8, "font-family": "var(--font-mono)", class: "tl-lab" }, g, m.y);
+                    return g;
+                });
+                return { base, baseAh, hops, ms };
+            })() : null;
+            let tlGen = 0, tlPlayed = false;
+            function tlReset() {
+                return;   // timeline is static (no animation)
+                tlGen++;
+                tweens.forEach(tw => { if (tw.owner === "tl") tweens.delete(tw); });
+                tlSvg.classList.add("tlx");
+                tlSvg.querySelectorAll(".on").forEach(e => e.classList.remove("on"));
+                tl.base.style.strokeDasharray = "1 1"; tl.base.style.strokeDashoffset = 1;
+                tl.hops.forEach(hp => { hp.arc.style.strokeDasharray = "1 1"; hp.arc.style.strokeDashoffset = 1; hp.pt.textContent = hp.label; });
+            }
+            async function playTimeline() {
+                return;   // timeline is static (no animation)
+                tlReset(); tlPlayed = true;
+                const my = tlGen;
+                await tween(500, p => { tl.base.style.strokeDashoffset = 1 - p; }, ease.outCubic, "tl"); if (my !== tlGen) return;
+                tl.baseAh.classList.add("on");
+                for (let i = 0; i < tl.ms.length; i++) {
+                    tl.ms[i].classList.add("on");
+                    const hp = tl.hops[i]; if (!hp) break;
+                    await wait(180); if (my !== tlGen) return;
+                    let shown = false;
+                    await tween(hp.d, p => {     // the hop draws; its duration shrinks with the interval
+                        hp.arc.style.strokeDashoffset = 1 - p;
+                        if (p > .4) {
+                            if (!shown) { shown = true; hp.pill.classList.add("on"); }
+                            hp.pt.textContent = Math.round(hp.yrs * Math.min(1, (p - .4) / .6)).toLocaleString("vi-VN") + " năm";
+                        }
+                    }, ease.inOutSine, "tl"); if (my !== tlGen) return;
+                    hp.pt.textContent = hp.label;
+                    hp.ah.classList.add("on");
+                }
+            }
+
+            // ════ DEFAULT VIEW: lines + event dots only; descriptions cascade in while the chart is hovered ════
+            const replayBtn = G("replay");
+            if (replayBtn) replayBtn.hidden = true;
+            finalState();
+            const descEls = [];
+            DEVICES.forEach(dv => [dv.lab, dv.lead, dv.card].forEach(el => el && descEls.push({ el, yr: dv.y })));
+            ANN.forEach(a => [a.g, a.fo].forEach(el => el && descEls.push({ el, yr: a.yr })));
+            descEls.sort((p, q) => p.yr - q.yr);
+            descEls.forEach(d => d.el.classList.add("desc"));
+            stage.classList.add("desc-mode");
+            let dTimers = [], dOpen = false;
+            function setDesc(open) {   // appear oldest → newest, disappear newest → oldest
+                if (open === dOpen) return;
+                dOpen = open;
+                dTimers.forEach(clearTimeout); dTimers = [];
+                const step = REDUCED ? 0 : 45, n = descEls.length;
+                descEls.forEach((d, i) => dTimers.push(setTimeout(() => d.el.classList.toggle("shown", open), (open ? i : n - 1 - i) * step)));
+            }
+            hit.addEventListener("pointerenter", () => setDesc(true));
+            hit.addEventListener("pointerdown", () => setDesc(true));
+            hit.addEventListener("pointerleave", evt => { if (evt.pointerType === "mouse") setDesc(false); });
+            document.addEventListener("pointerdown", evt => { if (evt.target !== hit) setDesc(false); });
+            svg.addEventListener("focus", () => setDesc(true));
+            svg.addEventListener("blur", () => setDesc(false));
+        })();
+    </script>
+</body>
+
+</html>
